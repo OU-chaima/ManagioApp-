@@ -59,7 +59,6 @@ export class FacturePdfComponent {
             montant: this.item.id
         };
         this.router.navigate(['/ventes/paiement/create'], { queryParams }).then();
-        window.location.reload()
     }
 
     retourProduit(){
