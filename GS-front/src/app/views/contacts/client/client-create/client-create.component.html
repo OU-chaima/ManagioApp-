@@ -143,7 +143,7 @@
         </c-col>
         <c-col sm="4">
           <svg cIcon name="cil-bar-chart"  style="color: blue ;font-size: 30px"></svg>
-          <label cLabel for="niveauPrix" style="color: black;font-family: 'Times New Roman';font-size: 18px;font-weight: bold">Niveau de fidélité</label>
+          <label cLabel for="niveauPrix" style="color: black;font-family: 'Times New Roman';font-size: 18px;font-weight: bold">Niveau de prix</label>
           <c-input-group>
             <select cSelect id="niveauPrix" name="niveauPrix" [(ngModel)]="niveauPrix.id" [valid]="validator.niveauPrix.valid" (blur)="validator.niveauPrix.validate()">
               @for (it of niveauPrixList; track it) {
