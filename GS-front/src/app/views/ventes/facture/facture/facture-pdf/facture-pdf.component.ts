@@ -55,11 +55,24 @@ export class FacturePdfComponent {
     effectuerPaiement() {
         this.paiement.returnUrl = this.router.url;
         this.factureService.keepData = true;
-        const queryParams = {
-            montant: this.item.id
-        };
-        this.router.navigate(['/ventes/paiement/create'], { queryParams }).then();
+
+        // Vérifiez si un paiement existe déjà pour cette facture
+        if (this.item.paiement && this.item.paiement.id) {
+            console.log("paiement existe");
+            const queryParams = {
+                idPaiement: this.item.paiement.id, // Passez l'ID du paiement existant
+                idFacture: this.item.id // Passez l'ID de la facture
+            };
+            this.router.navigate(['/ventes/paiement/update'], { queryParams }).then();
+        } else {
+            console.log("paiement existe pas ");
+            const queryParams = {
+                idFacture: this.item.id
+            };
+            this.router.navigate(['/ventes/paiement/create'], { queryParams }).then();
+        }
     }
+
 
     retourProduit(){
         this.retourproduit.returnUrl = this.router.url;
@@ -78,13 +91,14 @@ export class FacturePdfComponent {
             this.service.findByIdFacture(this.item.id).subscribe({
                 next: paiement => {
                     this.item.paiement = paiement;
-                    console.log("paiement :",this.item.paiement);
+                    console.log(this.item.paiement)
                 },
                 error: err => console.log(err)
             });
             this.logo = data.entreprise?.logo;
           console.log( this.item.id );
             console.log( this.item );
+
         },
         error: err => console.log(err)
     })

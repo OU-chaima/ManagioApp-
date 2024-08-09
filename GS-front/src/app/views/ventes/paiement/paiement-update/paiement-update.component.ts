@@ -7,7 +7,7 @@ import {
   FormCheckComponent, FormCheckLabelDirective, FormCheckInputDirective, FormFeedbackComponent
 } from "@coreui/angular";
 import {FormsModule} from "@angular/forms";
-import {Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {IconDirective} from "@coreui/icons-angular";
 import {NgTemplateOutlet} from "@angular/common";
 
@@ -19,6 +19,11 @@ import {MethodePaiementService} from "src/app/controller/services/parametres/met
 import {MethodePaiement} from "src/app/controller/entities/parametres/methode-paiement";
 import {EntrepriseService} from "src/app/controller/services/parametres/entreprise.service";
 import {Entreprise} from "src/app/controller/entities/parametres/entreprise";
+import {FactureService} from "../../../../controller/services/ventes/facture/facture.service";
+import {RetourProduitService} from "../../../../controller/services/ventes/retourproduit/retour-produit.service";
+import {DomSanitizer} from "@angular/platform-browser";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Facture} from "../../../../controller/entities/ventes/facture/facture";
 
 @Component({
   selector: 'app-paiement-update',
@@ -55,33 +60,45 @@ export class PaiementUpdateComponent {
   private service = inject(PaiementService)
   private methodePaiementService = inject(MethodePaiementService)
   private entrepriseService = inject(EntrepriseService)
+  private factureService =inject(FactureService)
 
   protected validator = PaiementValidator.init(() => this.item)
 
   protected methodePaiementList!: MethodePaiement[]
   protected entrepriseList!: Entreprise[]
+  private route = inject(ActivatedRoute);
 
-  ngAfterContentInit() {
-    if (!this.isPartOfUpdateForm && this.item.id == null) this.router.navigate(["/ventes/paiement"]).then()
-  }
+
+
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const idPaiement = params['idPaiement'];
+      if (idPaiement) {
+        this.service.findById(idPaiement).subscribe({
+          next: (paiement) => {
+            this.item = paiement;
+            this.loadMethodePaiementList();
+            this.loadEntrepriseList();
+          },
+          error: (err) => console.error(err)
+        });
+      }
+    });
     if(this.service.keepData) {
       let methodePaiementCreated = this.methodePaiementService.createdItemAfterReturn;
       if (methodePaiementCreated.created) {
         this.item.methodePaiement = methodePaiementCreated.item
-     //   this.validator.methodePaiement.validate()
       }
-     /* let entrepriseCreated = this.entrepriseService.createdItemAfterReturn;
-      if (entrepriseCreated.created) {
-        this.item.entreprise = entrepriseCreated.item
-        this.validator.entreprise.validate()
-      }*/
     } else { this.validator.reset() }
 
     this.loadMethodePaiementList()
     this.loadEntrepriseList()
   }
+
+ // ngAfterContentInit() {
+   // if (!this.isPartOfUpdateForm && this.item.id == null) this.router.navigate(["/ventes/paiement"]).then()
+  //}
 
   // LOAD DATA
   loadMethodePaiementList() {
@@ -97,8 +114,13 @@ export class PaiementUpdateComponent {
     })
   }
 
+  calculPrixImpaye(): number {
+    return this.item.montantRest- this.item.montantPaye;
+  }
+
   // METHODS
   update() {
+    this.item.montantRest=this.calculPrixImpaye();
     console.log(this.item)
     if (!this.validator.validate()) return;
     this.sending = true;
@@ -131,6 +153,10 @@ export class PaiementUpdateComponent {
   }
 
   // GETTERS AND SETTERS
+
+  public get itemF(): Facture {
+    return this.factureService.item;
+  }
   public get items() {
     return this.service.items;
   }
