@@ -112,6 +112,20 @@ export const routes: Routes = [
       title: 'Abonnements'
     }
   },
+  {
+    path: 'support',
+    loadComponent: () => import('./views/pages/support/support.component').then(m => m.SupportComponent),
+    data: {
+      title: 'Support'
+    }
+  },
+  {
+    path: 'detailsUser',
+    loadComponent: () => import('./views/pages/support/details-user/details-user.component').then(m => m.DetailsUserComponent),
+    data: {
+      title: 'Details User'
+    }
+  },
   { path: '**', redirectTo: 'dashboard' }
 
 ];

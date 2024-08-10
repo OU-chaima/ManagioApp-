@@ -48,6 +48,8 @@ public class AppUser extends AuditEntity implements UserDetails {
     @OneToOne(mappedBy = "user")
     private Subscription subscription;
 
+    private boolean isSupperAdmin;
+
 
     public AppUser() {
         super();
@@ -84,6 +86,14 @@ public class AppUser extends AuditEntity implements UserDetails {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean getIsSupperAdmin() {
+        return isSupperAdmin;
+    }
+
+    public void setisSupperAdmin(boolean isSupperAdmin) {
+        this.isSupperAdmin = isSupperAdmin;
     }
 
     @Override

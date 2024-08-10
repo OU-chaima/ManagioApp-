@@ -33,12 +33,13 @@ public class SubscriptionProvider {
         return ResponseEntity.ok(resultDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/admin/{id}")
     public ResponseEntity<SubscriptionDto> find(@PathVariable Long id) {
         var result = subscriptionDao.findByUserId(id);
         var resultDto = converter.toDto(result);
         return ResponseEntity.ok(resultDto);
     }
+
 
 
 

@@ -58,13 +58,26 @@ export class LoginComponent {
     this.loading = true;
     this.authService.login().subscribe({
       next: data => {
-        this.userInfosService.setUsername(data.username);
-        console.log(data);
-        this.tokenService.setToken(data.accessToken)
-        this.tokenService.setRole(data.roles)
-        this.validator.reset()
-        this.item = new JwtRequest()
-        this.getDaysRemaining(data.username);
+
+        this.appUserService.findByUsernameWithRoles(data.username).subscribe({
+          next: (res) => {
+            console.log('is Supper Admin:', res.isSupperAdmin);
+            if(res.isSupperAdmin){
+              this.router.navigate(["/support"]).then();
+            }else{
+              this.userInfosService.setUsername(data.username);
+              console.log(data);
+              this.tokenService.setToken(data.accessToken)
+              this.tokenService.setRole(data.roles)
+              this.validator.reset()
+              this.item = new JwtRequest()
+              this.getDaysRemaining(data.username);
+            }
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        });
        },
       error: err => {
         console.log(err)
@@ -97,4 +110,8 @@ export class LoginComponent {
       console.log(error);
     });
   }
+
+
+
+
 }

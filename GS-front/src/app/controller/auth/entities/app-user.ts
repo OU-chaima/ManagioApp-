@@ -10,5 +10,6 @@ export class AppUser {
   password!: string ;
   passwordChanged!: boolean ;
   confirmPassword!: string ;
+  isSupperAdmin?: boolean;
 
 }

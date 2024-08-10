@@ -26,11 +26,20 @@ public class AppUserDto extends AuditBaseDto {
 //
 //    private Boolean isTrial;
 
+    private boolean isSupperAdmin;
 
 
      protected List<RoleDto> roles = new ArrayList<>();
 
     public AppUserDto() {
+    }
+
+    public boolean getIsSupperAdmin() {
+        return isSupperAdmin;
+    }
+
+    public void setisSupperAdmin(boolean isSupperAdmin) {
+        this.isSupperAdmin = isSupperAdmin;
     }
 
     public boolean isCredentialsNonExpired() {

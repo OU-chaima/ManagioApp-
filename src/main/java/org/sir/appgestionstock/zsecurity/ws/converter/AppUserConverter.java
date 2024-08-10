@@ -47,6 +47,7 @@ public class AppUserConverter {
         dto.setRoles(role ? (List<RoleDto>) roleConverter.toDto(item.getRoles()) : null);
 //        dto.setIsTrial(item.getIsTrial());
 //        dto.setRegistrationDate(item.getRegistrationDate());
+        dto.setisSupperAdmin(item.getIsSupperAdmin());
         this.configure(true);
         return dto;
     }
@@ -67,6 +68,7 @@ public class AppUserConverter {
         item.setRoles(roleConverter.toItem(dto.getRoles()));
 //        item.setIsTrial(dto.getIsTrial());
 //        item.setRegistrationDate(dto.getRegistrationDate());
+        item.setisSupperAdmin(dto.getIsSupperAdmin());
         return item;
     }
 

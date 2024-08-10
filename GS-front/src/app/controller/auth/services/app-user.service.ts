@@ -13,7 +13,7 @@ export class AppUserService {
   private http = inject(HttpClient)
 
   public findAll() {
-    return this.http.get< Array< AppUser>>(this.api);
+    return this.http.get< Array<AppUser>>(this.api);
   }
 
 
@@ -27,6 +27,10 @@ export class AppUserService {
 
   public findByUsernameWithRoles(username: string) {
     return this.http.get<AppUser>(`${this.api}/username/${username}`);
+  }
+
+  public findAllAdmin() {
+    return this.http.get<Array<AppUser>>(`${this.api}/admins`);
   }
 
   public findByUsername(username: string){

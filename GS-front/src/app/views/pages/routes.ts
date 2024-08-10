@@ -51,6 +51,20 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'support',
+    loadComponent: () => import('./support/support.component').then(m => m.SupportComponent),
+    data: {
+      title: 'Support'
+    }
+  },
+  {
+    path: 'detailsUser',
+    loadComponent: () => import('./support/details-user/details-user.component').then(m => m.DetailsUserComponent),
+    data: {
+      title: 'Details User'
+    }
+  },
+  {
     path: 'paiement',
     loadComponent: () => import('./paiement/paiement.component').then(m => m.PaiementComponent),
     data: {

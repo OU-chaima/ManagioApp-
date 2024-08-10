@@ -38,6 +38,18 @@ public class AppUserRest {
         List<AppUser> all = this.appUserService.findAll();
         return appUserConverter.toDto(all);
     }
+
+    @GetMapping("/admins")
+    public List<AppUserDto> findAllAdmins() {
+        List<AppUser> all = this.appUserService.findAll();
+        List<AppUser> allAdmins = all.stream()
+                .filter(user -> user.getRoles().stream()
+                        .anyMatch(role -> "ADMIN".equals(role.getName())))
+                .toList();
+
+        return appUserConverter.toDto(allAdmins);
+    }
+
     @GetMapping("/findByUser/{username}")
     public AppUser findByUsername(String username) {
         return appUserService.findByUsername(username);
