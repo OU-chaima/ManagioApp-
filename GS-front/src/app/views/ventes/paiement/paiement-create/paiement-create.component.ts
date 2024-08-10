@@ -130,7 +130,7 @@ export class PaiementCreateComponent {
   }
 
   calculPrixImpaye(): number {
-    return this.itemF.total- this.item.montantPaye;this.item.methodePaiement
+    return this.item.montantRest- this.item.montantPaye;
   }
 
   // METHODS

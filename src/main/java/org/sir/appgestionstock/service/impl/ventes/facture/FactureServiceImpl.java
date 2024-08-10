@@ -1,6 +1,7 @@
 package org.sir.appgestionstock.service.impl.ventes.facture;
 
 import org.sir.appgestionstock.bean.core.contacts.user.Employe;
+import org.sir.appgestionstock.bean.core.parametres.*;
 import org.sir.appgestionstock.bean.core.ventes.facture.Facture;
 import org.sir.appgestionstock.bean.enums.StatutFactureEnum;
 import org.sir.appgestionstock.dao.ventes.facture.FactureDao;
@@ -10,19 +11,15 @@ import org.sir.appgestionstock.bean.core.ventes.Paiement;
 import org.sir.appgestionstock.service.facade.ventes.PaiementService;
 import org.sir.appgestionstock.bean.core.ventes.retourproduit.RetourProduit;
 import org.sir.appgestionstock.service.facade.ventes.retourproduit.RetourProduitService;
-import org.sir.appgestionstock.bean.core.parametres.Taxe;
 import org.sir.appgestionstock.service.facade.parametres.TaxeService;
 import org.sir.appgestionstock.bean.core.contacts.Client;
 import org.sir.appgestionstock.service.facade.contacts.ClientService;
-import org.sir.appgestionstock.bean.core.parametres.Devises;
 import org.sir.appgestionstock.service.facade.parametres.DevisesService;
-import org.sir.appgestionstock.bean.core.parametres.NiveauPrix;
 import org.sir.appgestionstock.service.facade.parametres.NiveauPrixService;
 import org.sir.appgestionstock.bean.core.adresse.Adresse;
 import org.sir.appgestionstock.service.facade.adresse.AdresseService;
 import org.sir.appgestionstock.bean.core.ventes.facture.FactureProduit;
 import org.sir.appgestionstock.service.facade.ventes.facture.FactureProduitService;
-import org.sir.appgestionstock.bean.core.parametres.Entreprise;
 import org.sir.appgestionstock.service.facade.parametres.EntrepriseService;
 import org.sir.appgestionstock.bean.core.ventes.commande.Commande;
 import org.sir.appgestionstock.service.facade.ventes.commande.CommandeService;
@@ -38,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -78,9 +76,19 @@ public class FactureServiceImpl implements FactureService {
     public Facture create(Facture item) {
 
         if (item == null) return null;
+
         item.setStatut(StatutFactureEnum.NONPAYE);
 
-// check if taxe exists
+        // Initialisation du paiement
+        Paiement paiement = new Paiement();
+        MethodePaiement methodePaiement=new MethodePaiement();
+        paiement.setDatePaiement(LocalDate.now()); // par exemple, date du jour
+        paiement.setMontantPaye(0.0); // Montant payé initialisé à 0
+        paiement.setMontantRest(item.getTotal()); // Montant restant égal au total de la facture
+        paiement.setMethodePaiement(methodePaiement);
+        // Associer le paiement à la facture
+
+        // Vérifications des différentes associations
         var taxe = item.getTaxe();
         if (taxe != null) {
             if (taxe.getId() == null) item.setTaxe(null);
@@ -90,7 +98,6 @@ public class FactureServiceImpl implements FactureService {
                 item.setTaxe(found);
             }
         }
-// check if taxeExpedition exists
         var taxeExpedition = item.getTaxeExpedition();
         if (taxeExpedition != null) {
             if (taxeExpedition.getId() == null) item.setTaxeExpedition(null);
@@ -100,7 +107,6 @@ public class FactureServiceImpl implements FactureService {
                 item.setTaxeExpedition(found);
             }
         }
-// check if client exists
         var client = item.getClient();
         if (client != null) {
             if (client.getId() == null) item.setClient(null);
@@ -110,7 +116,6 @@ public class FactureServiceImpl implements FactureService {
                 item.setClient(found);
             }
         }
-// check if devises exists
         var devises = item.getDevises();
         if (devises != null) {
             if (devises.getId() == null) item.setDevises(null);
@@ -120,7 +125,6 @@ public class FactureServiceImpl implements FactureService {
                 item.setDevises(found);
             }
         }
-// check if niveauPrix exists
         var niveauPrix = item.getNiveauPrix();
         if (niveauPrix != null) {
             if (niveauPrix.getId() == null) item.setNiveauPrix(null);
@@ -130,21 +134,31 @@ public class FactureServiceImpl implements FactureService {
                 item.setNiveauPrix(found);
             }
         }
-// check if entreprise exists
         var entreprise = item.getEntreprise();
         if (entreprise != null) {
             if (entreprise.getId() == null) item.setEntreprise(null);
             else {
                 var found = entrepriseService.findById(entreprise.getId());
                 if (found == null) throw new NotFoundException("Unknown Given Entreprise");
+                paiement.setIdEntreprise(found.getId());
                 item.setEntreprise(found);
             }
         }
+        item.setPaiement(paiement);
+        // Créer les objets associés
         createAssociatedObject(item);
         Facture saved = dao.save(item);
+
+        // Enregistrer le paiement avec la facture associée
+        paiement.setIdFacture(saved.getId());
+        paiementService.create(paiement);
+
+        // Créer les listes associées
         createAssociatedList(saved);
+
         return saved;
     }
+
 
     @Transactional(rollbackFor = Exception.class)
     public List<Facture> create(List<Facture> items) {

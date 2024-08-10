@@ -2,6 +2,7 @@ import {Component, inject} from '@angular/core';
 import {CommandeService} from "../../../../../controller/services/ventes/commande/commande.service";
 import {Commande} from "../../../../../controller/entities/ventes/commande/commande";
 import {DatePipe, NgForOf} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-commande-pdf',
@@ -16,6 +17,8 @@ import {DatePipe, NgForOf} from "@angular/common";
 export class CommandePdfComponent {
 private commandeService = inject(CommandeService)
   public logo?:string;
+
+  constructor(private router: Router) {}
   public set items(value:Commande[]) {
     this.commandeService.items = value;
   }
@@ -41,6 +44,10 @@ private commandeService = inject(CommandeService)
 
   imprimerFacture() {
     window.print();
+  }
+
+  goTofacture(){
+    this.router.navigate(['/ventes/facture/facture/create']);
   }
 
 

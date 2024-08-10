@@ -13,6 +13,7 @@ private Long id;
 private LocalDate datePaiement;
 private double montantPaye;
 private double montantRest;
+
 @ManyToOne(fetch = FetchType.LAZY)
 private MethodePaiement methodePaiement;
 @ManyToOne(fetch = FetchType.LAZY)

@@ -205,11 +205,11 @@
                 </tr>
                 <tr>
                     <th scope="row" colspan="4">Prix Payé</th>
-                    <td class="total-item-paid">{{ item.paiement?.montantPaye ?? 0.00 }}</td>
+                    <td class="total-item-paid">{{ item.paiement?.montantPaye?? 0.00 }}</td>
                 </tr>
                 <tr>
                     <th scope="row" colspan="4">Prix Impayé</th>
-                    <td class="total-item-unpaid">{{ item.paiement?.montantRest ?? item.total }}</td>
+                    <td class="total-item-unpaid">{{item.paiement?.montantRest ?? item.total }}</td>
                 </tr>
                 </tbody>
             </table>

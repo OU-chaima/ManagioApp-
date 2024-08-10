@@ -521,7 +521,7 @@ export class FactureCreateComponent implements OnChanges {
     let factureProduit = new FactureProduit();
     factureProduit.produit = produit
     factureProduit.disque = 0
-    factureProduit.quantite = 1
+    factureProduit.quantite = 0
     produit.disponible = produit?.niveauStockInitial - factureProduit?.quantite;
     factureProduit.disponible = produit.disponible
     factureProduit.prix = produit?.produitNiveauPrix?.filter(it => it.niveauPrix?.id == this.client?.niveauPrix?.id)[0]?.prix || produit.prixGros;
@@ -599,13 +599,18 @@ export class FactureCreateComponent implements OnChanges {
     // Vérifier si factureProduit1.produit existe
     if (factureProduit1.produit) {
       let prix = factureProduit1.prix || 0;
-
+      console.log("Produit Niveau Prix:", factureProduit1.produit);
       factureProduit1.produit.produitNiveauPrix?.forEach(e => {
-        if (this.item.niveauPrix?.id == e.niveauPrix?.id) {
+        console.log("Niveau de Prix ID:", e.niveauPrix?.id);
+        console.log("Client Niveau Prix ID:", this.item.client?.niveauPrix?.id);
+        if (this.item.client?.niveauPrix?.id == e.niveauPrix?.id) {
           console.log("Niveau de prix trouvé...");
           prix = e.prix;
+        } else {
+          console.log("Niveau de prix introuvable...");
         }
       });
+
       console.log("prixProduit", prix);
 
       let sousTotal = (factureProduit1.quantite * prix);
