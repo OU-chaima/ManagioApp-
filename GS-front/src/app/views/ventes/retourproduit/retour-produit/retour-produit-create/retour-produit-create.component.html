@@ -113,9 +113,10 @@
           <td>{{ it.produit != null ? it.produit.nom : "null" }}</td>
           <td>{{ it.prix }}</td>
           <td>
-            <input type="number" [(ngModel)]="it.quantite">
+            <input type="number" [(ngModel)]="it.quantite" (ngModelChange)="updateDisponible(it, $event)">
           </td>
-          <td>{{ it.disponible }}</td>
+          <td *ngIf="disponible2"> {{ this.disponible2 }}</td>
+          <td *ngIf="disponible2==0"> {{ it.disponible }}</td>
           <td style="display: flex; justify-content: end;">
             <button (click)="deletefactureProduit(it)" cButton color>
               <svg cIcon name="cil-trash" size="lg"></svg>
@@ -128,9 +129,10 @@
           <td>{{ it.produit != null ? it.produit.nom : "null" }}</td>
           <td>{{ it.prix }}</td>
           <td>
-            <input type="number" [(ngModel)]="it.quantite">
+            <input type="number" [(ngModel)]="it.quantite" (ngModelChange)="updateDisponible(it, $event)">
           </td>
-          <td>{{ it.disponible }}</td>
+          <td *ngIf="disponible2"> {{ this.disponible2 }}</td>
+          <td *ngIf="disponible2==0"> {{ it.disponible }}</td>
           <td style="display: flex; justify-content: end;">
             <button (click)="deleteretourProduitProduit(it)" cButton color>
               <svg cIcon name="cil-trash" size="lg"></svg>

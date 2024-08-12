@@ -91,9 +91,11 @@ export class RetourProduitCreateComponent {
   protected produitList!: Produit[]
   public entreprises!: Entreprise[];
   protected _clientName: string = this.item.client?.nom ?? '';
+  protected disponible2:number=0;
   facturee!: Facture ;
   idFacture!: number;
   isClient !:boolean;
+
   ngOnInit() {
     // Récupération des paramètres de la route
     this.route.queryParams.subscribe(params => {
@@ -159,6 +161,15 @@ export class RetourProduitCreateComponent {
   generateCode(): string {
     return 'I' + this.currentCodeNumber.toString().padStart(7, '0');
   }
+  updateDisponible(item: any, newQuantity: number): void {
+    if (item.disponible && item.disponible > 0) {
+    this.disponible2=item.disponible- newQuantity;
+    } else {
+      item.quantite = newQuantity; // Keep the new quantity if the available is not defined
+    }
+  }
+
+
 
 
 
@@ -325,10 +336,10 @@ export class RetourProduitCreateComponent {
     let retourProduitProduit = new RetourProduitProduit();
     retourProduitProduit.produit = produit
     console.log("produit", produit);
-    retourProduitProduit.quantite = 1
+    retourProduitProduit.quantite = 0
     produit.disponible = produit?.niveauStockInitial - retourProduitProduit?.quantite;
     console.log("disponible", produit.disponible);
-    retourProduitProduit.disponible = produit.disponible
+    retourProduitProduit.disponible =  produit?.niveauStockInitial - retourProduitProduit?.quantite
     console.log(retourProduitProduit.disponible);
 
     retourProduitProduit.prix = produit?.produitNiveauPrix?.filter(it => it.niveauPrix?.id == this.client?.niveauPrix?.id)[0]?.prix || produit.prixGros;
