@@ -29,7 +29,7 @@ export class SupportComponent {
   loadAdminsList() {
     this.appUserService.findAllAdmin().subscribe({
       next: data => {
-        this.adminsList = data;
+        this.adminsList = data.filter(user => !user.isSupperAdmin);
         console.log("Admins List :",data);
       },
       error: err => console.log(err)

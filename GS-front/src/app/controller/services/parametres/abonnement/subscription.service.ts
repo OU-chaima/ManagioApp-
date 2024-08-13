@@ -29,7 +29,7 @@ export class SubscriptionService {
   }
 
   public findById(id: number) {
-    return this.http.get<Subscription>(`${this.api}/${id}`);
+    return this.http.get<Subscription>(`${this.api}/admin/${id}`);
   }
 
 

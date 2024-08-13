@@ -38,7 +38,7 @@ export class DetailsUserComponent {
       this.id = +params['id'];
     });
     this.getAdminById(this.id);
-    this.getSubscription(this.id);
+    //this.getSubscription(this.id);
   }
 
   getAdminById(id: number) {
@@ -52,6 +52,16 @@ export class DetailsUserComponent {
           this.entreprises = res;
         }, error => {
           console.log(error);
+        });
+
+        this.subscriptionService.findById(res.id).subscribe({
+          next: (res) => {
+            this.subscription = res;
+            console.log('Subscription :', this.subscription);
+          },
+          error: (err) => {
+            console.error('Error:', err);
+          }
         });
 
       },

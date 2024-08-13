@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, inject, NgZone, OnInit, ViewChild} from '@angular/core';
-import { NgIf } from "@angular/common";
+import {CommonModule, NgIf} from "@angular/common";
 import { StripeService } from "../../../controller/services/parametres/abonnement/stripe.service";
 import {Plan} from "../../../controller/entities/parametres/abonnement/Plan";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
@@ -17,7 +17,8 @@ import {FormLabelDirective} from "@coreui/angular";
     imports: [
         NgIf,
         RouterLink,
-        FormLabelDirective
+        FormLabelDirective,
+        CommonModule
     ],
     templateUrl: './paiement.component.html',
     styleUrls: ['./paiement.component.scss']
@@ -47,6 +48,7 @@ export class PaiementComponent implements AfterViewInit {
     private _appUserService = inject(AppUserService);
     public subscriptionService = inject(SubscriptionService);
     private subscription: Subscription = new Subscription();
+    selectedBank: string | null = null;
 
     constructor(private ngZone: NgZone, private stripeService: StripeService) {
     }
@@ -147,6 +149,24 @@ export class PaiementComponent implements AfterViewInit {
         }
     }
 
+    selectBank(bank: string) {
+        this.selectedBank = bank;
+    }
+
+    onFileSelected(event: any) {
+        const file = event.target.files[0];
+        // Handle file selection
+    }
+
+    uploadReceipt() {
+        // Handle receipt upload
+        console.log('Uploading receipt for', this.selectedBank);
+        this.closeUploadModal(); // Close the modal after upload
+    }
+
+    closeUploadModal() {
+        this.selectedBank = null; // Hide the upload interface
+    }
 
 
 }
