@@ -70,7 +70,6 @@ export class FactureListComponent {
     } else {
       this.getFactureForEmploye();
     }
-
     this.getEmployeByUsername(this.userInfosService.getUsername());
   }
 
@@ -137,16 +136,6 @@ export class FactureListComponent {
         }
       });
     }
-  }
-
-  loadFacturesList() {
-    this.service.getFactures(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
-      next: data => {
-        this.facturesList = data;
-        console.log("factures List :",data);
-      },
-      error: err => console.log(err)
-    })
   }
 
 
@@ -232,14 +221,15 @@ export class FactureListComponent {
           this.getFacturesForAdmin();
         } else {
           this.getFactureForEmploye();
-        }      },
+        }
+        },
+
       error: err => {
         console.log(err)
       }
     })
 
   }
-
 
   delete() {
     this.isEmploye = !!this.tokenService.getRole()?.some(it => it == "EMPLOYE");
@@ -317,7 +307,6 @@ export class FactureListComponent {
       this.router.navigate(["/ventes/facture/facture/update"]).then();
     }
   }
-
 
 
   // GETTERS AND SETTERS

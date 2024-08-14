@@ -48,13 +48,33 @@
         </div>
 
 
-<!--        <div class="container shadow-lg mt-5 pt-3">-->
-<!--            <div>-->
-<!--                <h4 class="mb-4">Payment par reçu de paiement</h4>-->
-<!--                <label for="file">Reçu de paiement</label>-->
-<!--                <input class="form-control" type="file" id="file">-->
-<!--            </div>-->
-<!--        </div>-->
+        <!-- Upload Interface -->
+        <div *ngIf="selectedBank" class="upload-receipt-modal shadow-lg">
+            <div class="upload-receipt-content">
+                <h4>{{ selectedBank | titlecase }} - Upload Payment Receipt</h4>
+                <input type="file" (change)="onFileSelected($event)">
+                <button (click)="uploadReceipt()">Upload</button>
+                <button (click)="closeUploadModal()">Cancel</button>
+            </div>
+        </div>
+
+
+            <div class="container shadow-lg mt-5 pt-3">
+           <div>
+           <h4 class="mb-4">Vous pouvez utiliser d'autres méthodes de paiement</h4>
+     <div class="payment-options">
+                <a (click)="selectBank('banque-populaire')" class="bank-icon-button small-button">
+                    <img src="/assets/images/BQ-populaire.png" alt="Banque Populaire">
+                </a>
+                <a (click)="selectBank('wafa-banque')" class="bank-icon-button small-button">
+                    <img src="assets/images/wafabanque.png" alt="Wafa Banque">
+                </a>
+                <a (click)="selectBank('cashplus')" class="bank-icon-button small-button">
+                    <img src="/assets/images/cashplus.png" alt="cashplus">
+                </a>
+            </div>
+        </div>
+      </div>
 
 
     </div>

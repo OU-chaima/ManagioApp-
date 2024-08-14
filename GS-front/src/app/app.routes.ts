@@ -126,6 +126,8 @@ export const routes: Routes = [
       title: 'Details User'
     }
   },
+
   { path: '**', redirectTo: '404' }
+
 
 ];

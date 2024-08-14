@@ -78,7 +78,6 @@ export class EntrepriseListComponent {
       console.log(ress);
       this.entreprises = ress;
       this.nbrEntreprises = ress.length;
-      console.log("first :",this.nbrEntreprises);
       this.appUserService.findByUsernameWithRoles(this.userInfosService.getUsername()).subscribe(res => {
         console.log(res);
         this.subscriptionService.findById(res.id).subscribe(resl => {

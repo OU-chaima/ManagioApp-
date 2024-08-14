@@ -121,20 +121,11 @@ export class DefaultHeaderComponent extends HeaderComponent {
         )
         .subscribe();
 
-
-
-    // this.entrepriseService.findById(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe(res => {
-    //   console.log("test :",res);
-    //   this.logo = res.logo;
-    // }, error => {
-    //   console.log(error);
-    // });
   }
 
   ngOnInit() {
     const newVar = this.tokenService.getRole()?.some(it => it == "ADMIN") ? 1 : 0;
     console.log("newVar :",newVar);
-
     if(newVar == 1){
       this.getEntreprises();
     }
@@ -142,9 +133,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
       this.getEntreprisesAdroitAcces();
     }
     this.getDaysRemaining();
-
-
-
   }
 
 
@@ -209,13 +197,12 @@ export class DefaultHeaderComponent extends HeaderComponent {
     }
   }
 
-  getEntreprisesAdroitAcces() {
 
+  getEntreprisesAdroitAcces() {
     if (this.entrepriseSelectedService.getEntrepriseSelected() != 0) {
       this.entrepriseService.findById(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe(data => {
         console.log("selected: ", data);
         this.logo = data.logo;
-
         this.employeService.findByUserName(this.userInfosService.getUsername()).subscribe((res: Employe) => {
           console.log("empId : ", res.id);
           this.entrepriseService.findEntreprisesAdroitAcces(res.id).subscribe((reslt: Entreprise[]) => {
@@ -268,7 +255,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
       this.getTotalNotifications(this.entrepriseSelectedService.getEntrepriseSelected());
       console.log("from header : ", this.entrepriseSelectedService.getEntrepriseSelected());
       window.location.reload();
-
     } else {
       console.error('Entreprise not found');
     }

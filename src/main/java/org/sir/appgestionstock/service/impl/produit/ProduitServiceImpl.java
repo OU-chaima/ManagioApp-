@@ -123,6 +123,7 @@ public class ProduitServiceImpl implements ProduitService {
         ns.setEntreprise(item.getEntreprise());
 
         item.setNiveauStock(ns);
+
         createAssociatedObject(item);
         Produit saved = dao.save(item);
         createAssociatedList(saved);

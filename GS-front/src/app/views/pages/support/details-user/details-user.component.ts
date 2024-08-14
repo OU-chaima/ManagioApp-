@@ -38,7 +38,7 @@ export class DetailsUserComponent {
       this.id = +params['id'];
     });
     this.getAdminById(this.id);
-    this.getSubscription(this.id);
+
   }
 
   getAdminById(id: number) {
@@ -54,6 +54,16 @@ export class DetailsUserComponent {
           console.log(error);
         });
 
+        this.subscriptionService.findById(res.id).subscribe({
+          next: (res) => {
+            this.subscription = res;
+            console.log('Subscription :', this.subscription);
+          },
+          error: (err) => {
+            console.error('Error:', err);
+          }
+        });
+
       },
       error: (err) => {
         console.error(err);
@@ -61,17 +71,7 @@ export class DetailsUserComponent {
     });
   }
 
-  getSubscription(id: number) {
-    this.subscriptionService.findById(id).subscribe({
-      next: (res) => {
-        this.subscription = res;
-        console.log('Subscription :', this.subscription);
-      },
-      error: (err) => {
-        console.error('Error:', err);
-      }
-    });
-  }
+
 
 
 }

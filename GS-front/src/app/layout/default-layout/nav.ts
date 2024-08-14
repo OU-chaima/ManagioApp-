@@ -204,6 +204,7 @@ export const navItems2: INavData[] = [
     name: 'personnels'
   },
   {
+
     name: 'Contacts',
 
     iconComponent: {name: 'cil-address-book'},
@@ -243,6 +244,7 @@ export const navItems2: INavData[] = [
     name: 'Operations'
   },
   {
+
     name: 'Ventes',
     iconComponent: {name: 'cil-cart'},
     children: [
@@ -316,6 +318,7 @@ export const navItems2: INavData[] = [
     name: "Autres"
   },
   {
+
     name: 'Paramètres',
     iconComponent: {name: 'cil-settings'},
     children: [

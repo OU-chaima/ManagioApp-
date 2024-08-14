@@ -14,7 +14,6 @@ import {IconDirective} from "@coreui/icons-angular";
 import {generatePageNumbers, paginationSizes} from "src/app/controller/utils/pagination/pagination";
 import {ProduitService} from "../../../../controller/services/produit/produit.service";
 import {Produit} from "../../../../controller/entities/produit/produit";
-import {RetourProduit} from "../../../../controller/entities/ventes/retourproduit/retour-produit";
 import {EntrepriseSelectedService} from "../../../../controller/shared/entreprise-selected.service";
 import {Entreprise} from "../../../../controller/entities/parametres/entreprise";
 import {Employe} from "../../../../controller/entities/contacts/user/employe";
@@ -132,20 +131,6 @@ export class NiveauStockListComponent {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   delete() {
     this.service.deleteById(this.item.id).subscribe({
       next: value => {
@@ -157,7 +142,9 @@ export class NiveauStockListComponent {
           this.getStockForAdmin();
         } else {
           this.getStockForEmploye();
-        }      },
+        }
+        },
+
       error: err => {
         console.log(err)
       }

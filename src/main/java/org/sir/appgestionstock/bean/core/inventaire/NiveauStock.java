@@ -15,7 +15,6 @@ private String disponible;
 @ManyToOne(fetch = FetchType.LAZY)
 private Entreprise entreprise;
 
-
 public NiveauStock() {
 }
 public Long getId() {
