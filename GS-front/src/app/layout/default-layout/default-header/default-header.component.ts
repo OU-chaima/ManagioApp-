@@ -102,7 +102,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   public entrepriseSelected!: Entreprise;
   public totalNotifications:number=0;
   public vu : boolean = false;
-  public logo?: string ;
+  public logo?: string | null;
 
   constructor(private userInfosService: UserInfosService) {
     super();
@@ -120,6 +120,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
             takeUntilDestroyed(this.#destroyRef)
         )
         .subscribe();
+
   }
 
   ngOnInit() {
@@ -164,28 +165,28 @@ export class DefaultHeaderComponent extends HeaderComponent {
   //       || this.router.url === '/ventes/facture/facture/facturepdf';
   // }
 
-  getEntreprises() {
-    this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe(res => {
-      console.log(res);
-      this.entreprises = res;
-      if (this.entreprises.length > 0) {
-        this.logo = this.entreprises[0].logo;
-        this.getTotalNotifications(this.entreprises[0].id);
-        this.entrepriseSelectedService.setEntrepriseSelected(this.entreprises[0].id);
-      }
-    }, error => {
-      console.log(error);
-    });
-  }
 
-  getEntreprisesAdroitAcces() {
-    this.employeService.findByUserName(this.userInfosService.getUsername()).subscribe((res: Employe) => {
-      console.log("empId : ", res.id);
-      this.entrepriseService.findEntreprisesAdroitAcces(res.id).subscribe((reslt: Entreprise[]) => {
-        this.entreprises = reslt;
-        console.log("EntreprisesÀdroit :",this.entreprises);
-        if (this.entreprises && this.entreprises.length > 0) {
-          console.log("from header :",this.entreprises[0]);
+  getEntreprises() {
+
+    if (this.entrepriseSelectedService.getEntrepriseSelected() != 0) {
+      this.entrepriseService.findById(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe(data => {
+        console.log("selected: ", data);
+        this.logo = data.logo;
+
+        this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe(res => {
+          console.log(res);
+          this.entreprises = res;
+        }, error => {
+          console.log(error);
+        });
+
+      });
+    } else {
+
+      this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe(res => {
+        console.log(res);
+        this.entreprises = res;
+        if (this.entreprises.length > 0) {
           this.logo = this.entreprises[0].logo;
           this.getTotalNotifications(this.entreprises[0].id);
           this.entrepriseSelectedService.setEntrepriseSelected(this.entreprises[0].id);
@@ -193,9 +194,47 @@ export class DefaultHeaderComponent extends HeaderComponent {
       }, error => {
         console.log(error);
       });
-    }, error => {
-      console.log(error);
-    });
+    }
+  }
+
+
+  getEntreprisesAdroitAcces() {
+    if (this.entrepriseSelectedService.getEntrepriseSelected() != 0) {
+      this.entrepriseService.findById(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe(data => {
+        console.log("selected: ", data);
+        this.logo = data.logo;
+        this.employeService.findByUserName(this.userInfosService.getUsername()).subscribe((res: Employe) => {
+          console.log("empId : ", res.id);
+          this.entrepriseService.findEntreprisesAdroitAcces(res.id).subscribe((reslt: Entreprise[]) => {
+            this.entreprises = reslt;
+            console.log("EntreprisesÀdroit :", this.entreprises);
+          }, error => {
+            console.log(error);
+          });
+        }, error => {
+          console.log(error);
+        });
+
+      });
+    } else {
+      this.employeService.findByUserName(this.userInfosService.getUsername()).subscribe((res: Employe) => {
+        console.log("empId : ", res.id);
+        this.entrepriseService.findEntreprisesAdroitAcces(res.id).subscribe((reslt: Entreprise[]) => {
+          this.entreprises = reslt;
+          console.log("EntreprisesÀdroit :", this.entreprises);
+          if (this.entreprises && this.entreprises.length > 0) {
+            console.log("from header :", this.entreprises[0]);
+            this.logo = this.entreprises[0].logo;
+            this.getTotalNotifications(this.entreprises[0].id);
+            this.entrepriseSelectedService.setEntrepriseSelected(this.entreprises[0].id);
+          }
+        }, error => {
+          console.log(error);
+        });
+      }, error => {
+        console.log(error);
+      });
+    }
   }
 
 
@@ -215,7 +254,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
       this.totalNotifications = 0;
       this.getTotalNotifications(this.entrepriseSelectedService.getEntrepriseSelected());
       console.log("from header : ", this.entrepriseSelectedService.getEntrepriseSelected());
-       window.location.reload();
+      window.location.reload();
     } else {
       console.error('Entreprise not found');
     }

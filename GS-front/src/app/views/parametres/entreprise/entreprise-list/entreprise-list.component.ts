@@ -60,7 +60,7 @@ export class EntrepriseListComponent {
   protected paginating = false
   protected currentIndex: number  = 0
   protected deleteModel = false
-  public showAdd:boolean = true;
+  public showAdd:boolean = false;
   public nbrEntreprises:number = 0;
   public entreprises !: Entreprise[];
   private service = inject(EntrepriseService);
@@ -84,7 +84,7 @@ export class EntrepriseListComponent {
           console.log(resl);
           // @ts-ignore
           if(this.nbrEntreprises >= resl.plan?.maxEntreprises){
-            this.showAdd = false;
+            this.showAdd = true;
           }
         }, error => {
           console.log(error);

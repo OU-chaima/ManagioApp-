@@ -18,6 +18,7 @@ import {FormLabelDirective} from "@coreui/angular";
         NgIf,
         RouterLink,
         FormLabelDirective,
+        FormLabelDirective,
         CommonModule
     ],
     templateUrl: './paiement.component.html',
@@ -148,6 +149,7 @@ export class PaiementComponent implements AfterViewInit {
             this.ngZone.run(() => this.cardError = error.message);
         }
     }
+
 
     selectBank(bank: string) {
         this.selectedBank = bank;

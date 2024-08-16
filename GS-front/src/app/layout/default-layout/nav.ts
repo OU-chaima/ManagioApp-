@@ -200,6 +200,11 @@ export const navItems2: INavData[] = [
     // },
   },
   {
+    title: true,
+    name: 'personnels'
+  },
+  {
+
     name: 'Contacts',
 
     iconComponent: {name: 'cil-address-book'},
@@ -220,6 +225,10 @@ export const navItems2: INavData[] = [
     ],
   },
   {
+    title: true,
+    name: 'Paramètres produits'
+  },
+  {
     name: 'Produits',
     iconComponent: {name: 'cib-codepen'},
     children: [
@@ -231,6 +240,11 @@ export const navItems2: INavData[] = [
     ],
   },
   {
+    title: true,
+    name: 'Operations'
+  },
+  {
+
     name: 'Ventes',
     iconComponent: {name: 'cil-cart'},
     children: [
@@ -258,7 +272,7 @@ export const navItems2: INavData[] = [
         name: 'Retour de produit',
         url: '/ventes/retourproduit/retour-produit',
 
-        iconComponent: {name: ' cilArrowLeft'},
+        iconComponent: {name: 'cil-list-low-priority'},
 
       },
 
@@ -293,13 +307,18 @@ export const navItems2: INavData[] = [
         name: 'Bon de livraison',
         url: '/inventaire/livraison/livraison',
 
-        iconComponent: {name: ' cil-fax '},
+        iconComponent: {name: 'cil-description'},
 
       },
     ],
   },
 
   {
+    title: true,
+    name: "Autres"
+  },
+  {
+
     name: 'Paramètres',
     iconComponent: {name: 'cil-settings'},
     children: [

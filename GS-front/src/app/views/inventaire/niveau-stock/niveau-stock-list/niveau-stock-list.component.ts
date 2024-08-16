@@ -14,8 +14,13 @@ import {IconDirective} from "@coreui/icons-angular";
 import {generatePageNumbers, paginationSizes} from "src/app/controller/utils/pagination/pagination";
 import {ProduitService} from "../../../../controller/services/produit/produit.service";
 import {Produit} from "../../../../controller/entities/produit/produit";
-import {RetourProduit} from "../../../../controller/entities/ventes/retourproduit/retour-produit";
 import {EntrepriseSelectedService} from "../../../../controller/shared/entreprise-selected.service";
+import {Entreprise} from "../../../../controller/entities/parametres/entreprise";
+import {Employe} from "../../../../controller/entities/contacts/user/employe";
+import {EmployeService} from "../../../../controller/services/contacts/user/employe.service";
+import {EntrepriseService} from "../../../../controller/services/parametres/entreprise.service";
+import {UserInfosService} from "../../../../controller/shared/user-infos.service";
+import {TokenService} from "../../../../controller/auth/services/token.service";
 
 @Component({
   selector: 'app-niveau-stock-list',
@@ -41,21 +46,87 @@ export class NiveauStockListComponent {
   private produitService = inject(ProduitService)
   public niveauStockList!:NiveauStock[];
   private entrepriseSelectedService = inject(EntrepriseSelectedService);
+  private employeService = inject(EmployeService);
+  private entrepriseService = inject(EntrepriseService);
+  private userInfosService = inject(UserInfosService);
+  private tokenService = inject(TokenService);
 
   ngOnInit() {
     this.produit();
-    this.loadretourProduitList();
+    const newVar = this.tokenService.getRole()?.some(it => it == "ADMIN") ? 1 : 0;
+
+    if (newVar == 1) {
+      this.getStockForAdmin();
+    } else {
+      this.getStockForEmploye();
+    }
+
   }
 
 
-  loadretourProduitList() {
-    this.service.getNiveauStock(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
-      next: data => {
-        this.niveauStockList = data;
-        console.log("niveau Stock List :",data);
-      },
-      error: err => console.log(err)
-    })
+
+  getStockForAdmin() {
+    if (this.entrepriseSelectedService.getEntrepriseSelected() != 0) {
+      this.service.getNiveauStock(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+        next: data => {
+          this.niveauStockList = data;
+          console.log("niveau Stock List :",data);
+        },
+        error: err => console.log(err)
+      })
+    } else {
+      this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe((res: Entreprise[]) => {
+        console.log("Entreprises: ", res);
+        if (res && res.length > 0) {
+          this.service.getNiveauStock(res[0].id).subscribe({
+            next: data => {
+              this.niveauStockList = data;
+              console.log("niveau Stock List :",data);
+            },
+            error: err => console.log(err)
+          })
+        } else {
+          console.log('Aucune facture trouvée.');
+        }
+      }, error => {
+        console.log(error);
+      });
+    }
+  }
+
+
+  getStockForEmploye() {
+    if (this.entrepriseSelectedService.getEntrepriseSelected() != 0) {
+      this.service.getNiveauStock(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+        next: data => {
+          this.niveauStockList = data;
+          console.log("niveau Stock List :",data);
+        },
+        error: err => console.log(err)
+      })
+    } else {
+      this.employeService.findByUserName(this.userInfosService.getUsername()).subscribe((res: Employe) => {
+        console.log("empId: ", res.id);
+        this.entrepriseService.findEntreprisesAdroitAcces(res.id).subscribe((reslt: Entreprise[]) => {
+          console.log("EntreprisesÀdroit: ", reslt);
+          if (reslt && reslt.length > 0) {
+            this.service.getNiveauStock(reslt[0].id).subscribe({
+              next: data => {
+                this.niveauStockList = data;
+                console.log("niveau Stock List :",data);
+              },
+              error: err => console.log(err)
+            })
+          } else {
+            console.log('Aucune facture trouvée.');
+          }
+        }, error => {
+          console.log(error);
+        });
+      }, error => {
+        console.log(error);
+      });
+    }
   }
 
 
@@ -66,8 +137,14 @@ export class NiveauStockListComponent {
         this.item = new NiveauStock()
         this.currentIndex = -1
         this.deleteModel = false
-        this.loadretourProduitList();
-      },
+        const newVar = this.tokenService.getRole()?.some(it => it == "ADMIN") ? 1 : 0;
+        if (newVar == 1) {
+          this.getStockForAdmin();
+        } else {
+          this.getStockForEmploye();
+        }
+        },
+
       error: err => {
         console.log(err)
       }

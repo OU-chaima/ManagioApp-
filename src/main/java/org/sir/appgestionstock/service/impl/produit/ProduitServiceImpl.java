@@ -114,6 +114,16 @@ public class ProduitServiceImpl implements ProduitService {
                 item.setEntreprise(found);
             }
         }
+
+        //niveau de stock
+        NiveauStock ns = new NiveauStock();
+        ns.setDisponible(String.valueOf(item.getDisponible()));
+        ns.setNom(item.getNom());
+        ns.setSku(item.getSku());
+        ns.setEntreprise(item.getEntreprise());
+
+        item.setNiveauStock(ns);
+
         createAssociatedObject(item);
         Produit saved = dao.save(item);
         createAssociatedList(saved);

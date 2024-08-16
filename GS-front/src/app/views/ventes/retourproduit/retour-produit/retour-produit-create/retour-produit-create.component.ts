@@ -163,7 +163,7 @@ export class RetourProduitCreateComponent {
   }
   updateDisponible(item: any, newQuantity: number): void {
     if (item.disponible && item.disponible > 0) {
-    this.disponible2=item.disponible- newQuantity;
+      this.disponible2=item.disponible- newQuantity;
     } else {
       item.quantite = newQuantity; // Keep the new quantity if the available is not defined
     }
@@ -346,7 +346,7 @@ export class RetourProduitCreateComponent {
     console.log("client", this.client);
     console.log("niveau prix du client", this?.client.niveauPrix);
     console.log(retourProduitProduit.prix);
-  //  retourProduitProduit.total = this.calculerTotal(retourProduitProduit);
+    //  retourProduitProduit.total = this.calculerTotal(retourProduitProduit);
     console.log(retourProduitProduit.total);
 
     this.item.retourProduitProduit = [...this.item.retourProduitProduit, retourProduitProduit]
@@ -468,4 +468,3 @@ export class RetourProduitCreateComponent {
   }
 
 }
-

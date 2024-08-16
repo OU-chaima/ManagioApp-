@@ -1,12 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from "../../../../../environments/environment";
 import {Subscription} from "../../../entities/parametres/abonnement/Subscription";
-import {Pagination} from "../../../utils/pagination/pagination";
 import {HttpClient} from "@angular/common/http";
-import {Entreprise} from "../../../entities/parametres/entreprise";
-import {Plan} from "../../../entities/parametres/abonnement/Plan";
-import {NiveauPrix} from "../../../entities/parametres/niveau-prix";
-import {Produit} from "../../../entities/produit/produit";
+
 
 @Injectable({
   providedIn: 'root'

@@ -38,6 +38,7 @@ export class DetailsUserComponent {
       this.id = +params['id'];
     });
     this.getAdminById(this.id);
+
   }
 
   getAdminById(id: number) {
@@ -69,7 +70,5 @@ export class DetailsUserComponent {
       }
     });
   }
-
-
 
 }

@@ -19,6 +19,8 @@ import {TokenService} from "../../../../../controller/auth/services/token.servic
 import {NgIf} from "@angular/common";
 import {ToasterService} from "../../../../../toaster/controller/toaster.service";
 import {EntrepriseSelectedService} from "../../../../../controller/shared/entreprise-selected.service";
+import {EntrepriseService} from "../../../../../controller/services/parametres/entreprise.service";
+import {Entreprise} from "../../../../../controller/entities/parametres/entreprise";
 
 
 @Component({
@@ -45,16 +47,29 @@ export class FactureListComponent {
   private entrepriseSelectedService = inject(EntrepriseSelectedService);
   private service = inject(FactureService);
   private serviceEmploye = inject(EmployeService);
+  private entrepriseService = inject(EntrepriseService);
   private userInfosService = inject(UserInfosService);
   private tokenService = inject(TokenService);
+  private employeService = inject(EmployeService);
   private employe: Employe = new Employe();
   public isEmploye: boolean = false;
+  public addShow: boolean = false;
+  public updateShow: boolean = false;
+  public deleteShow: boolean = false;
   public a: boolean = false;
   public facturesList!: Facture[];
 
 
   ngOnInit() {
-    this.loadFacturesList();
+  // this.getPermissions();
+  //  this.loadFacturesList();
+    const newVar = this.tokenService.getRole()?.some(it => it == "ADMIN") ? 1 : 0;
+
+    if (newVar == 1) {
+      this.getFacturesForAdmin();
+    } else {
+      this.getFactureForEmploye();
+    }
     this.getEmployeByUsername(this.userInfosService.getUsername());
   }
 
@@ -86,16 +101,113 @@ export class FactureListComponent {
     });
   }
 
+  getPermissions(){
+    //permissions
+    this.isEmploye = !!this.tokenService.getRole()?.some(it => it == "EMPLOYE");
+    if(this.isEmploye) {
+      // @ts-ignore
+      this.employe.permissionsAcces.forEach(permission => {
+        if (permission.nom == 'ajouter facture' && permission.etat == true &&
+            (permission.entrepriseId === this.employe.entreprise?.id ||
+                this.employe.entreprisesAdroitAcces?.some(entreprise => entreprise.id === permission.entrepriseId))) {
+          this.addShow = true;
+        }
 
-  loadFacturesList() {
-    this.service.getFactures(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
-      next: data => {
-        this.facturesList = data;
-        console.log("factures List :",data);
-      },
-      error: err => console.log(err)
-    })
+      });
+
+      // @ts-ignore
+      this.employe.permissionsAcces.forEach(permission => {
+        if (permission.nom == 'modifier facture' && permission.etat == true
+            && permission.entrepriseId == this.employe.entreprise?.id &&
+            (permission.entrepriseId === this.employe.entreprise?.id ||
+                this.employe.entreprisesAdroitAcces?.some(entreprise => entreprise.id === permission.entrepriseId))
+        ) {
+          this.updateShow = true;
+        }
+      });
+
+      // @ts-ignore
+      this.employe.permissionsAcces.forEach(permission => {
+        if (permission.nom == 'supprimer facture' && permission.etat == true &&
+            (permission.entrepriseId === this.employe.entreprise?.id ||
+                this.employe.entreprisesAdroitAcces?.some(entreprise => entreprise.id === permission.entrepriseId))
+        ) {
+          this.deleteShow = true;
+        }
+      });
+    }
   }
+
+
+  getFacturesForAdmin() {
+    if (this.entrepriseSelectedService.getEntrepriseSelected() != 0) {
+      this.service.getFactures(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+        next: data => {
+          this.facturesList = data;
+          console.log("factures List :",data);
+        },
+        error: err => console.log(err)
+      })
+    } else {
+      this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe((res: Entreprise[]) => {
+        console.log("Entreprises: ", res);
+        if (res && res.length > 0) {
+          this.service.getFactures(res[0].id).subscribe({
+            next: data => {
+              this.facturesList = data;
+              console.log("factures List :",data);
+            },
+            error: err => console.log(err)
+          })
+        } else {
+          console.log('Aucune facture trouvée.');
+        }
+      }, error => {
+        console.log(error);
+      });
+    }
+  }
+
+
+  getFactureForEmploye() {
+    if (this.entrepriseSelectedService.getEntrepriseSelected() != 0) {
+      this.service.getFactures(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+        next: data => {
+          this.facturesList = data;
+          console.log("factures List :",data);
+        },
+        error: err => console.log(err)
+      })
+    } else {
+      this.employeService.findByUserName(this.userInfosService.getUsername()).subscribe((res: Employe) => {
+        console.log("empId: ", res.id);
+        this.entrepriseService.findEntreprisesAdroitAcces(res.id).subscribe((reslt: Entreprise[]) => {
+          console.log("EntreprisesÀdroit: ", reslt);
+          if (reslt && reslt.length > 0) {
+            this.service.getFactures(reslt[0].id).subscribe({
+              next: data => {
+                this.facturesList = data;
+                console.log("factures List :",data);
+              },
+              error: err => console.log(err)
+            })
+          } else {
+            console.log('Aucune facture trouvée.');
+          }
+        }, error => {
+          console.log(error);
+        });
+      }, error => {
+        console.log(error);
+      });
+    }
+  }
+
+
+
+
+
+
 
 
   public deletefacture(){
@@ -104,8 +216,14 @@ export class FactureListComponent {
         this.item = new Facture()
         this.currentIndex = -1
         this.deleteModel = false
-        this.loadFacturesList();
-      },
+        const newVar = this.tokenService.getRole()?.some(it => it == "ADMIN") ? 1 : 0;
+        if (newVar == 1) {
+          this.getFacturesForAdmin();
+        } else {
+          this.getFactureForEmploye();
+        }
+        },
+
       error: err => {
         console.log(err)
       }
@@ -126,7 +244,7 @@ export class FactureListComponent {
         }
       });
       if(this.a){
-          this.deletefacture();
+        this.deletefacture();
       }else{
         this.router.navigate(["/ventes/facture/facture"]).then();
         this.toasterService.toast({message: "Vous n'avez pas le droit de supprimer une facture", color: "danger"});
