@@ -169,10 +169,6 @@ export class RetourProduitCreateComponent {
     }
   }
 
-
-
-
-
   loadEntreprise() {
     this.entrepriseService.findById(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
       next: entreprise => {
