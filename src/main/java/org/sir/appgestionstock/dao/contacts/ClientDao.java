@@ -18,6 +18,7 @@ int deleteByTaxeId(Long id);
 List<Client> findByTaxeId(Long id);
 int deleteByEntrepriseId(Long id);
 List<Client> findByEntrepriseId(Long id);
+List<Client> findByIdEntreprise(Long id);
 @Query("SELECT NEW Client(item.id,item.nom) FROM Client item")
 List<Client> findAllOptimized();
     @Query("SELECT MAX(item.id) FROM Client item")

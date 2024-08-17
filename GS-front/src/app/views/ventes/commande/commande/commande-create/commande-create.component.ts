@@ -59,6 +59,7 @@ import {EntrepriseSelectedService} from "../../../../../controller/shared/entrep
 import {UserInfosService} from "../../../../../controller/shared/user-infos.service";
 import {EmployeService} from "../../../../../controller/services/contacts/user/employe.service";
 import {TokenService} from "../../../../../controller/auth/services/token.service";
+import {ProduitNiveauPrixService} from "../../../../../controller/services/produit/produit-niveau-prix.service";
 
 @Component({
   selector: 'app-commande-create',
@@ -101,6 +102,7 @@ export class CommandeCreateComponent {
   private entrepriseService = inject(EntrepriseService)
   private commandeProduitService = inject(CommandeProduitService)
   private produitService = inject(ProduitService)
+  private produitNiveauPrixService = inject(ProduitNiveauPrixService)
   private factureService = inject(FactureService)
   private formBuilder: FormBuilder = inject(FormBuilder)
   private toasterService = inject(ToasterService)
@@ -119,7 +121,7 @@ export class CommandeCreateComponent {
   protected produitList!: Produit[]
   public entreprises!: Entreprise[];
   protected readonly TypeRabaisEnum = TypeRabaisEnum;
-  protected clientP!: Client;
+  public clientP!: Client;
 
 
   ngOnInit() {
@@ -186,6 +188,9 @@ export class CommandeCreateComponent {
     })
   }
 
+
+
+
   currentCodeNumber: number = 1;
 
   clientForm !: FormGroup;
@@ -193,6 +198,8 @@ export class CommandeCreateComponent {
   generateCode(): string {
     return 'I' + this.currentCodeNumber.toString().padStart(7, '0');
   }
+
+
 
   loadProduitList() {
     this.produitService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
@@ -217,6 +224,8 @@ export class CommandeCreateComponent {
       error: err => console.log(err)
     });
   }
+
+
 
 
   loadTaxeList() {
@@ -258,6 +267,8 @@ export class CommandeCreateComponent {
   }
 
 
+
+
   getClientsForEmploye() {
     if (this.entrepriseSelectedService.getEntrepriseSelected() != 0) {
       this.clientService.getClients(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
@@ -294,12 +305,15 @@ export class CommandeCreateComponent {
 
 
 
+
   loadDevisesList() {
     this.devisesService.findAllOptimized().subscribe({
       next: data => this.devisesList = data,
       error: err => console.log(err)
     })
   }
+
+
 
   loadNiveauPrixList() {
     this.niveauPrixService.findAllOptimized().subscribe({
@@ -308,12 +322,16 @@ export class CommandeCreateComponent {
     })
   }
 
+
+
   loadEntrepriseList() {
     this.entrepriseService.findAllOptimized().subscribe({
       next: data => this.entrepriseList = data,
       error: err => console.log(err)
     })
   }
+
+
 
   create() {
     this.notificationService.handelcreate('Creation d\'une commande', 'Une nouvelle commande à été crée par l\'employer', this.entrepriseSelectedService.getEntrepriseSelected())
@@ -344,6 +362,8 @@ export class CommandeCreateComponent {
   }
 
 
+
+
   protected dispo = 0;
 
   public addCommandeProduits(produit: Produit): void {
@@ -353,7 +373,7 @@ export class CommandeCreateComponent {
     }
     let commandeProduit = new CommandeProduit();
     commandeProduit.produit = produit;
-
+    console.log("produit added", produit);
     commandeProduit.produit = produit;
     commandeProduit.disque = 0
     commandeProduit.quantite = 1
@@ -369,6 +389,9 @@ export class CommandeCreateComponent {
     console.log(this.item.commandeProduit);
   }
 
+
+
+
   public onInputChange(commandeProduit: CommandeProduit): void {
     if (commandeProduit.quantite > 0 && commandeProduit.disque > 0) {
       if (commandeProduit.produit) {
@@ -378,16 +401,17 @@ export class CommandeCreateComponent {
     }
   }
 
+
+
   calculerTotal(commandeProduit: CommandeProduit): number {
 
-    console.log(this.item);
+    console.log("commandeProduit",commandeProduit);
     let total = 0;
     if (commandeProduit.produit) {
       let prixProduit = 0;
       let id = this.client.id;
       this.findClient(id);
       prixProduit = commandeProduit.produit?.produitNiveauPrix?.filter(it => it.niveauPrix?.nom == this?.clientP?.niveauPrix?.nom)[0]?.prix || commandeProduit.produit.prixGros;
-
       console.log("prixProduit", prixProduit);
 
 
@@ -409,6 +433,9 @@ export class CommandeCreateComponent {
     return parseFloat(total.toFixed(2));
   }
 
+
+
+
   calculeSommeQuantite(commandeProduitList: CommandeProduit[]): number {
     let number = commandeProduitList.reduce((sommeQuantite, commandeProduit) => {
       return sommeQuantite + (commandeProduit.quantite || 0);
@@ -417,6 +444,8 @@ export class CommandeCreateComponent {
     return number;
   }
 
+
+
   calculeRemiseGlobal(commandeProduitList: CommandeProduit[]): number {
     let number = commandeProduitList.reduce((sommeRemise, commandeProduit) => {
       return sommeRemise + (commandeProduit.disque || 0);
@@ -424,6 +453,9 @@ export class CommandeCreateComponent {
     this.item.remiseGlobal = number + this.item.rabais;
     return this.item.remiseGlobal;
   }
+
+
+
 
   calculeSommeSousTotal(commandeProduits: CommandeProduit[]): string {
     const somme = commandeProduits.reduce((total, commandeProduit) => {
@@ -436,6 +468,9 @@ export class CommandeCreateComponent {
     this.item.sousTotal = somme
     return somme.toFixed(2);
   }
+
+
+
 
   calculeSommeTotale(commandeProduitList: CommandeProduit[]): number {
     const sommeTotale = commandeProduitList.reduce((somme, commandeProduit) => {
@@ -464,6 +499,8 @@ export class CommandeCreateComponent {
     return sommeTotaleFormatee;
   }
 
+
+
   deleteCommandeProduit(itemFP: CommandeProduit): void {
     if (itemFP.produit) {
       itemFP.produit.disponible = itemFP.produit.disponible + itemFP.quantite;
@@ -476,10 +513,20 @@ export class CommandeCreateComponent {
     this.clientService.findById(id).subscribe(res => {
       console.log(res);
       this.clientP = res;
+      // @ts-ignore
+      this.produitNiveauPrixService.findById(res.idNiveauPrix).subscribe(reslt => {
+        console.log(reslt);
+        this.clientP.niveauPrix = reslt;
+      }, error => {
+        console.log(error);
+      });
     }, error => {
       console.log(error);
     });
   }
+
+
+
 
 
   reset(force = true) {
@@ -678,5 +725,7 @@ export class CommandeCreateComponent {
   retour() {
     this.router.navigate(['/pays/pays/list']).then()
   }
+
+
 
 }

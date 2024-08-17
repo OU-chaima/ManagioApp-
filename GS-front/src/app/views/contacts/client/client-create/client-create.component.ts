@@ -186,6 +186,8 @@ export class ClientCreateComponent {
 
   // METHODS
   create() {
+      this.item.idNiveauPrix = this.item.niveauPrix?.id;
+      this.item.idEntreprise = this.entrepriseSelectedService.getEntrepriseSelected();
     console.log(this.item)
     if (!this.validator.validate()) return;
     this.sending = true;

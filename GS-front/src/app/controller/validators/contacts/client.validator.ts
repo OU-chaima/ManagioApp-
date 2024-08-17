@@ -45,16 +45,16 @@ export class ClientValidator extends Validator< Client> {
 
 
 
-  siteweb = new ValidatorItem<string>(
-    () => this.item().siteweb,
-    (value) => this.item().siteweb = value,
-    (value) => {
-      this.siteweb.stringValidators
-        ?.required()
-        ?.pattern(/^(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/\S*)?$/, 'Site web invalide. Veuillez entrer un site web sous la forme : http://www.exemple.com')
-        ?.valid()
-    }
-  )
+  // siteweb = new ValidatorItem<string>(
+  //   () => this.item().siteweb,
+  //   (value) => this.item().siteweb = value,
+  //   (value) => {
+  //     this.siteweb.stringValidators
+  //       ?.required()
+  //       ?.pattern(/^(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/\S*)?$/, 'Site web invalide. Veuillez entrer un site web sous la forme : http://www.exemple.com')
+  //       ?.valid()
+  //   }
+  // )
   entreprise = new ValidatorItem<Entreprise>(
     () => this.item().entreprise,
     (value) => this.item().entreprise = value,
@@ -126,7 +126,7 @@ export class ClientValidator extends Validator< Client> {
     this.nom,
     this.code,
     this.email,
-    this.siteweb,
+   // this.siteweb,
     this.telephone,
     this.taxeNumero,
     this.rabais,

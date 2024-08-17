@@ -29,12 +29,30 @@ private NiveauPrixDto niveauPrix;
 private TaxeDto taxe;
 private List<ClientProduitNiveauPrixDto> clientProduitNiveauPrixes;
 private EntrepriseDto entreprise;
+private Long idNiveauPrix;
+    private Long idEntreprise;
+
+
 public Long getId() {
 return id;
 }
 public void setId(Long id) {
 this.id = id;
 }
+
+    public Long getIdNiveauPrix() {
+        return idNiveauPrix;
+    }
+    public void setIdNiveauPrix(Long id) {
+        this.id = id;
+    }
+
+    public Long getIdEntreprise() {
+        return idEntreprise;
+    }
+    public void setIdEntreprise(Long id) {
+        this.idEntreprise = id;
+    }
 public String getNom() {
 return nom;
 }

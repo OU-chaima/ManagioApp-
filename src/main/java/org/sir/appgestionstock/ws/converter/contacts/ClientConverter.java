@@ -95,6 +95,8 @@ public class ClientConverter {
         if (clientProduitNiveauPrix) {
             item.setClientProduitNiveauPrix(clientProduitNiveauPrixConverter.toItem(dto.getClientProduitNiveauPrixes()));
         }
+        item.setIdNiveauPrix(dto.getIdNiveauPrix());
+        item.setIdEntreprise(dto.getIdEntreprise());
         return item;
     }
 
@@ -128,6 +130,8 @@ public class ClientConverter {
         if (clientProduitNiveauPrix) {
             dto.setClientProduitNiveauPrixes(clientProduitNiveauPrixConverter.toDto(item.getClientProduitNiveauPrix()));
         }
+        dto.setIdNiveauPrix(item.getIdNiveauPrix());
+        dto.setIdEntreprise(item.getIdEntreprise());
         return dto;
     }
 

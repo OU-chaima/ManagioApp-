@@ -259,7 +259,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> getClients(Long idEntreprise){
-        return dao.findByEntrepriseId(idEntreprise);
+        return dao.findByIdEntreprise(idEntreprise);
     }
 
     @Override
