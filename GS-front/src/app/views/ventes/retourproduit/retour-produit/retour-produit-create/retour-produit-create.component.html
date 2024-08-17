@@ -126,7 +126,7 @@ Créer
         </ng-container>
         <ng-container *ngIf="!isClient">
           <tr  *ngFor="let it of retourProduitProduit; let i = index">
-            <td>{{ it.produit != null ? it.produit.nom : "null" }}</td>
+            <td>{{  it?.produit?.nom}}</td>
             <td>{{ it.prix }}</td>
             <td>
               <input type="number" [(ngModel)]="it.quantite" (ngModelChange)="updateDisponible(it, $event)">

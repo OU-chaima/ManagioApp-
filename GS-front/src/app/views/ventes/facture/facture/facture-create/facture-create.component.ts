@@ -65,6 +65,7 @@ import {Employe} from "../../../../../controller/entities/contacts/user/employe"
 import {TokenService} from "../../../../../controller/auth/services/token.service";
 import {UserInfosService} from "../../../../../controller/shared/user-infos.service";
 import {EmployeService} from "../../../../../controller/services/contacts/user/employe.service";
+import {ProduitNiveauPrix} from "../../../../../controller/entities/produit/produit-niveau-prix";
 
 @Component({
   selector: 'app-facture-create',
@@ -124,6 +125,7 @@ export class FactureCreateComponent implements OnChanges {
   private entrepriseSelectedService = inject(EntrepriseSelectedService);
   private tokenService = inject(TokenService);
   private userInfosService = inject(UserInfosService);
+  private produitNiveauPrixService=inject(ProduitNiveauPrixService);
 
 
   protected taxeList!: Taxe[]
@@ -529,7 +531,6 @@ export class FactureCreateComponent implements OnChanges {
     this.item.factureProduit = [...this.item.factureProduit, factureProduit]
     console.log(this.item.factureProduit)
   }
-
   public get returnUrl() {
     return this.service.returnUrl;
   }
@@ -594,23 +595,29 @@ export class FactureCreateComponent implements OnChanges {
     this.item.factureProduit = this.item.factureProduit?.filter(item => item !== itemFP);
   }
 
-  calculerTotal(factureProduit1: FactureProduit): number {
+   calculerTotal(factureProduit1: FactureProduit): number  {
     console.log(this.item);
     // Vérifier si factureProduit1.produit existe
     if (factureProduit1.produit) {
       let prix = factureProduit1.prix || 0;
       console.log("Produit Niveau Prix:", factureProduit1.produit);
-      factureProduit1.produit.produitNiveauPrix?.forEach(e => {
-        console.log("Niveau de Prix ID:", e.niveauPrix?.id);
-        console.log("Client Niveau Prix ID:", this.item.client?.niveauPrix?.id);
-        if (this.item.client?.niveauPrix?.id == e.niveauPrix?.id) {
-          console.log("Niveau de prix trouvé...");
-          prix = e.prix;
-        } else {
-          console.log("Niveau de prix introuvable...");
-        }
-      });
-
+      // @ts-ignore
+      let produitNiveauPrix: ProduitNiveauPrix[] = this.produitNiveauPrixService.findByProduitId(factureProduit1.produit.id);
+      console.log("Produit Niveau Prix récupéré:", factureProduit1.produit.produitNiveauPrix);
+      if (produitNiveauPrix && produitNiveauPrix.length > 0) {
+        produitNiveauPrix.forEach(e => {
+          console.log("Niveau de Prix ID:", e.niveauPrix?.id);
+          console.log("Client Niveau Prix ID:", this.item.client?.niveauPrix?.id);
+          if (this.item.client?.niveauPrix?.id == e.niveauPrix?.id) {
+            console.log("Niveau de prix trouvé...");
+            prix = e.prix;
+          } else {
+            console.log("Niveau de prix introuvable...");
+          }
+        });
+      } else {
+        console.log("Produit Niveau Prix introuvable ou vide");
+      }
       console.log("prixProduit", prix);
 
       let sousTotal = (factureProduit1.quantite * prix);
