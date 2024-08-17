@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ScrapperService } from '../../../controller/services/parametres/scrapping/scrapper.service';
 import { Scrapper } from '../../../controller/entities/parametres/scrapping/Scrapper';
 import { ScrapperRequest } from '../../../controller/entities/parametres/scrapping/ScrapperRequest';
-import {NgIf} from "@angular/common";
+import { NgIf } from "@angular/common";
 
 @Component({
     selector: 'app-compare',
@@ -24,6 +24,9 @@ export class CompareComponent {
     sources: string = '';
     product: string = '';
     isLoading: boolean = false;
+    noResults: boolean = false;
+    timeoutMessage: boolean = false;
+
 
     onSubmit() {
         console.log('Category:', this.category);
@@ -35,9 +38,17 @@ export class CompareComponent {
         };
 
         this.isLoading = true;
+        this.noResults = false;
+        this.timeoutMessage = false;
+
+        const timeout = setTimeout(() => {
+            this.isLoading = false;
+            this.timeoutMessage = true;
+        }, 60000); // 60 seconds timeout
 
         this.scrapperService.getPrices(request).subscribe({
             next: data => {
+                clearTimeout(timeout);
                 this.scrapperList = data;
                 console.log("Scrapper List :", data);
 
@@ -47,13 +58,13 @@ export class CompareComponent {
                     this.min_price = Math.min(...data.map(item => item.prix ?? Infinity));
                     this.sources = data[0].source;
                 } else {
-                    this.max_price = 0;
-                    this.min_price = 0;
+                    this.noResults = true;
                 }
 
                 this.isLoading = false;
             },
             error: err => {
+                clearTimeout(timeout);
                 console.log(err);
                 this.isLoading = false;
             }

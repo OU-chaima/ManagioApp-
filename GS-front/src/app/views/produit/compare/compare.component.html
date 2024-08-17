@@ -61,8 +61,13 @@
                                     <div *ngIf="isLoading" class="loadings pt-lg-5 p-lg-5" >
                                         <img src="assets/loading.svg" alt="loading"/>
                                     </div>
-
-                                    <div *ngIf="!isLoading">
+                                    <div *ngIf="timeoutMessage" class="alert alert-warning">
+                                        La demande prend plus de temps que prévu. Veuillez réessayer plus tard.
+                                    </div>
+                                    <div *ngIf="noResults && !isLoading" class="alert alert-info">
+                                        Aucun résultat trouvé pour votre recherche. Veuillez essayer avec des critères différents.
+                                    </div>
+                                    <div *ngIf="!isLoading && !noResults && !timeoutMessage">
                                         <div class="table-responsive">
                                             <table class="table widget-26">
                                                 <tbody>
