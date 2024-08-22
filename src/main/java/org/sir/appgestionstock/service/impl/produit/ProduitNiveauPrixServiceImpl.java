@@ -119,7 +119,8 @@ return dao.deleteByProduitId(id);
 }
 @Override
 public List<ProduitNiveauPrix> findByProduitId(Long id){
-return dao.findByProduitId(id);
+    if (id == null) return new ArrayList<>(); // Null check for id
+    return dao.findByProduitId(id);
 }
 @Override
 @Transactional(rollbackFor = Exception.class)

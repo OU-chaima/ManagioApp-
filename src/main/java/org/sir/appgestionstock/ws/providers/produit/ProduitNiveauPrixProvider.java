@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import java.util.List;
 @RestController
-@RequestMapping("/api/produitniveauprix")
+@RequestMapping("/api/produitniveauPrix")
 public class ProduitNiveauPrixProvider {
 @Autowired private ProduitNiveauPrixService service;
 @Autowired private ProduitNiveauPrixConverter converter;
@@ -102,12 +102,12 @@ public ResponseEntity<Long> deleteByProduitId(@PathVariable Long id){
 service.deleteByProduitId(id);
 return ResponseEntity.ok(id);
 }
-@GetMapping("/produit/id/{id}")
-public ResponseEntity<List<ProduitNiveauPrixDto>> findByProduitId(@PathVariable Long id){
-var result = service.findByProduitId(id);
-var resultDto = converter.toDto(result);
-return ResponseEntity.ok(resultDto);
-}
+    @GetMapping("/produit/id/{id}")
+    public ResponseEntity<List<ProduitNiveauPrixDto>> findByProduitId(@PathVariable Long id){
+        var result = service.findByProduitId(id);
+        var resultDto = converter.toDto(result);
+        return ResponseEntity.ok(resultDto);
+    }
 @DeleteMapping("/niveauprix/id/{id}")
 public ResponseEntity<Long> deleteByNiveauPrixId(@PathVariable Long id){
 service.deleteByNiveauPrixId(id);

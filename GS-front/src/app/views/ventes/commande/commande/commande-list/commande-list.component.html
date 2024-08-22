@@ -20,7 +20,6 @@
                         <th scope="col">Total</th>
                         <th scope="col">Taxe</th>
                         <th scope="col">Devises</th>
-                        <th scope="col">Niveau de prix</th>
                         <th scope="col">Entreprise</th>
                         <th scope="col">Actions</th>
                     </tr>
@@ -34,7 +33,6 @@
                             <td>{{ it.total }}</td>
                             <td>{{ it.taxe != null ? it.taxe.nom: "null" }}</td>
                             <td>{{ it.devises != null ? it.devises.nouvelleDevise?.labelle: "null" }}</td>
-                            <td>{{ it.niveauPrix != null ? it.niveauPrix.nom: "null" }}</td>
                             <td>{{ it.entreprise != null ? it.entreprise.nom: "null" }}</td>
                             <td>
                                  <button cButton color  (click)="navigateToPdfCreate()" (click)="item = it">
