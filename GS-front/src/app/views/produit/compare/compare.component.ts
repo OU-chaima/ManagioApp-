@@ -44,7 +44,7 @@ export class CompareComponent {
         const timeout = setTimeout(() => {
             this.isLoading = false;
             this.timeoutMessage = true;
-        }, 60000); // 60 seconds timeout
+        }, 120000); // 60 seconds timeout
 
         this.scrapperService.getPrices(request).subscribe({
             next: data => {

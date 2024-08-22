@@ -33,7 +33,7 @@ export const routes: Routes = [
     path: 'profil',
     loadComponent: () => import('./profil/profil.component').then(m => m.ProfilComponent),
     data: {
-      title: 'Profil Page'
+      title: 'Profil'
     }
   },
   {

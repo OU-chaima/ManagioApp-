@@ -13,6 +13,8 @@ List<Devises> findByNouvelleDeviseId(Long id);
 int deleteByEntrepriseId(Long id);
 List<Devises> findByEntrepriseId(Long id);
 
+List<Devises> findByIdEntreprise(Long id);
+
     @Query("SELECT d FROM Devises d WHERE d.idEntreprise = :entrepriseId")
     List<Devises> findByEntreprise(@Param("entrepriseId") Long entrepriseId);
 

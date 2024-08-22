@@ -134,5 +134,11 @@ return ResponseEntity.ok(resultDto);
         return ResponseEntity.ok(generated);
     }
 
+    @GetMapping("/admin/{admin}")
+    public ResponseEntity<List<EmployeDto>> findByAdmin(@PathVariable String admin){
+        var result = service.findByAdmin(admin);
+        var resultDto = converter.toDto(result);
+        return ResponseEntity.ok(resultDto);
+    }
 
 }

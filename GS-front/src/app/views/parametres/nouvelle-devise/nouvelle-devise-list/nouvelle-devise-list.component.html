@@ -14,7 +14,7 @@
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col">No.</th>
+<!--                        <th scope="col">No.</th>-->
                         <th scope="col">Labelle</th>
                         <th scope="col"></th>
                     </tr>
@@ -22,7 +22,7 @@
                     <tbody>
                     @for (it of nouvelleDeviseList; track it; let i = $index) {
                     <tr>
-                        <td>{{ it.id }}</td>
+<!--                        <td>{{ it.id }}</td>-->
                         <td>{{ it.labelle }}</td>
                         <td style="display: flex; ">
                             <button cButton color routerLink="update" (click)="item = it">

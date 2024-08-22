@@ -70,8 +70,7 @@ export class ClientUpdateComponent {
   private entrepriseSelectedService = inject(EntrepriseSelectedService);
   protected validator = ClientValidator.init(() => this.item)
     .setAdresse(AdresseValidator.init(() => this.adresse))
-
-  protected devisesList!: Devises[]
+  public devisesList!:Devises[];
   protected niveauPrixList!: NiveauPrix[]
   protected taxeList!: Taxe[]
   protected entrepriseList!: Entreprise[]
@@ -120,15 +119,24 @@ export class ClientUpdateComponent {
     });
   }
 
+
   loadDevisesList() {
-    this.devisesService.findAll().subscribe({
-      next: data => this.devisesList = data,
+    this.devisesService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+      next: data => {
+        this.devisesList = data;
+        console.log("devises List :",data);
+      },
       error: err => console.log(err)
     })
   }
+
+
   loadNiveauPrixList() {
-    this.niveauPrixService.findAll().subscribe({
-      next: data => this.niveauPrixList = data,
+    this.niveauPrixService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+      next: data => {
+        this.niveauPrixList = data;
+        console.log("niveauPrix List:",data);
+      },
       error: err => console.log(err)
     })
   }

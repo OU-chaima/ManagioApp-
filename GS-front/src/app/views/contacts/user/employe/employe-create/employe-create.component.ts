@@ -123,10 +123,12 @@ export class EmployeCreateComponent {
 
 
   loadEntrepriseList() {
-    this.entrepriseService.findAllOptimized().subscribe({
-      next: data => this.entrepriseList = data,
-      error: err => console.log(err)
-    })
+    this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe(res => {
+      console.log(res);
+      this.entrepriseList = res;
+    }, error => {
+      console.log(error);
+    });
   }
 
 

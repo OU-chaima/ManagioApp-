@@ -29,4 +29,6 @@ Employe findByAdresseId(Long id);
 int deleteByEntrepriseId(Long id);
 List<Employe> findByEntrepriseId(Long id);
     Long findMaxId();
+
+    List<Employe> findByAdmin(String username);
 }

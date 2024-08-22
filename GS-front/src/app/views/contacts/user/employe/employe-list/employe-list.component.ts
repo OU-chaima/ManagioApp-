@@ -50,40 +50,49 @@ export class EmployeListComponent {
 
 
   getEmployers(){
-    if(this.entrepriseSelectedService.getEntrepriseSelected() !=0 ){
-      this.service.findAll().subscribe(data => {
-        this.employers = data;
-        this.employers = this.employers.filter(employe => {
-          const hasPermissionForEntrepriseId = employe.permissionsAcces?.some((permission: PermissionsAcces) =>
-              permission.entrepriseId == this.entrepriseSelectedService.getEntrepriseSelected());
-          return hasPermissionForEntrepriseId;
-        });
-        console.log(this.employers);
-      });
+    this.service.findByAdmin(this.userInfosService.getUsername()).subscribe( (res: Employe[]) => {
+      this.employers = res;
+      console.log("employers : ", this.employers)
+    }, error => {
+          console.log(error);
+   });
 
-
-    }else{
-      this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe( (res: Entreprise[]) => {
-        this.entreprises = res;
-        console.log("Entreprises : ", this.entreprises)
-        if (this.entreprises && this.entreprises.length > 0) {
-          this.service.findAll().subscribe(data => {
-            this.employers = data;
-            this.employers = this.employers.filter(employe => {
-              const hasPermissionForEntrepriseId = employe.permissionsAcces?.some((permission: PermissionsAcces) =>
-                  permission.entrepriseId == this.entreprises[0].id);
-              this.entrepriseSelectedService.setEntrepriseSelected(this.entreprises[0].id)
-              return hasPermissionForEntrepriseId;
-            });
-            console.log(this.employers);
-          });
-
-        }
-      }, error => {
-        console.log(error);
-      });
-    }
+      // if(this.entrepriseSelectedService.getEntrepriseSelected() !=0 ){
+    //   this.service.findAll().subscribe(data => {
+    //     this.employers = data;
+    //     this.employers = this.employers.filter(employe => {
+    //       const hasPermissionForEntrepriseId = employe.permissionsAcces?.some((permission: PermissionsAcces) =>
+    //           permission.entrepriseId == this.entrepriseSelectedService.getEntrepriseSelected());
+    //       return hasPermissionForEntrepriseId;
+    //     });
+    //     console.log(this.employers);
+    //   });
+    //
+    //
+    // }else{
+    //   this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe( (res: Entreprise[]) => {
+    //     this.entreprises = res;
+    //     console.log("Entreprises : ", this.entreprises)
+    //     if (this.entreprises && this.entreprises.length > 0) {
+    //       this.service.findAll().subscribe(data => {
+    //         this.employers = data;
+    //         this.employers = this.employers.filter(employe => {
+    //           const hasPermissionForEntrepriseId = employe.permissionsAcces?.some((permission: PermissionsAcces) =>
+    //               permission.entrepriseId == this.entreprises[0].id);
+    //           this.entrepriseSelectedService.setEntrepriseSelected(this.entreprises[0].id)
+    //           return hasPermissionForEntrepriseId;
+    //         });
+    //         console.log(this.employers);
+    //       });
+    //
+    //     }
+    //   }, error => {
+    //     console.log(error);
+    //   });
+    // }
   }
+
+
 
 
 

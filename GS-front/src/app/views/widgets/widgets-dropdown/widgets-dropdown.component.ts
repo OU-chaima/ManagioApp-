@@ -141,22 +141,25 @@ export class WidgetsDropdownComponent implements OnInit {
 
 
     public getNbrClients(id: number){
-        this.clientService.getNbClients(id).subscribe( res => {
-            this.nbrClients = res;
-            console.log("nbr Clients : ", this.nbrClients)
-        }, error => {
-            console.log(error);
-        });
+        this.clientService.getClients(id).subscribe({
+            next: data => {
+                this.nbrClients = data.length;
+                console.log("Clients :",data);
+                console.log("Clients length:",data.length);
+            },
+            error: err => console.log(err)
+        })
     }
 
 
     public getNbrCommandes(id: number){
-        this.commandeService.getNbCommandes(id).subscribe( res => {
-            this.nbrCommandes = res;
-            console.log("nbr Commandes : ", this.nbrCommandes)
-        }, error => {
-            console.log(error);
-        });
+        this.commandeService.getCommandes(id).subscribe({
+            next: data => {
+                this.nbrCommandes = data.length;
+                console.log("commandes :",data);
+            },
+            error: err => console.log(err)
+        })
     }
 
     public getRevenus(id: number) {

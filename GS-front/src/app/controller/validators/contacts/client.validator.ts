@@ -9,16 +9,17 @@ import {AdresseValidator} from 'src/app/controller/validators/adresse/adresse.va
 import {LangueEnum} from 'src/app/controller/enums/langue-enum'
 
 export class ClientValidator extends Validator< Client> {
+
   nom = new ValidatorItem<string>(
-    () => this.item().nom,
-    (value) => this.item().nom = value,
-    (value) => {
-      this.nom.stringValidators
-        ?.required()
-        ?.pattern(/^[a-zA-Z]+$/,'Nom invalide,Veuillez entrer un nom contenant uniquement des lettres alphabétiques')
-    ?.valid()
-    }
-  )
+      () => this.item().nom,
+      (value) => this.item().nom = value,
+      (value) => {
+        this.nom.stringValidators
+            ?.required()
+            ?.pattern(/^[a-zA-Z\s]+$/, 'Nom invalide, veuillez entrer un nom contenant uniquement des lettres alphabétiques et des espaces')
+            ?.valid()
+      }
+  );
   code = new ValidatorItem<string>(
     () => this.item().code,
     (value) => this.item().code = value,

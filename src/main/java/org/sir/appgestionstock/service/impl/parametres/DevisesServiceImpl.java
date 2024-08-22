@@ -153,7 +153,7 @@ return dao.findByEntrepriseId(id);
 
     @Override
     public List<Devises> findByEntreprise(Long id){
-        return dao.findByEntreprise(id);
+        return dao.findByIdEntreprise(id);
     }
 
 //----------------------------------------------------------

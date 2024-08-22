@@ -22,12 +22,12 @@ export const routes: Routes = [
       {
         path: 'create',
         loadComponent: () => import('./fournisseur/fournisseur-create/fournisseur-create.component').then(m => m.FournisseurCreateComponent),
-        data: {title: 'Create Fournisseur'}
+        data: {title: 'Créer un Fournisseur'}
       },
       {
         path: 'update',
         loadComponent: () => import('./fournisseur/fournisseur-update/fournisseur-update.component').then(m => m.FournisseurUpdateComponent),
-        data: {title: 'update Fournisseur'}
+        data: {title: 'Modifier un Fournisseur'}
       },
     ]
     },
@@ -42,12 +42,12 @@ export const routes: Routes = [
       {
         path: 'create',
         loadComponent: () => import('./client/client-create/client-create.component').then(m => m.ClientCreateComponent),
-        data: {title: 'Create Client'}
+        data: {title: 'Créer un Client'}
       },
       {
         path: 'update',
         loadComponent: () => import('./client/client-update/client-update.component').then(m => m.ClientUpdateComponent),
-        data: {title: 'update Client'}
+        data: {title: 'Modifier un Client'}
       },
     ]
     },
