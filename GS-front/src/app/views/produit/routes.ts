@@ -31,6 +31,18 @@ export const routes: Routes = [
       },
     ]
     },
+
+      {
+        path: 'compare',
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./compare/compare.component').then(m => m.CompareComponent),
+            data: {title: 'Compareteur de prix'}
+          }
+        ]
+      }
+
     ]
   }
 ];

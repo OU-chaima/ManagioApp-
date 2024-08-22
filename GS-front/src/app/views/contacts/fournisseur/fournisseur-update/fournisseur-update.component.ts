@@ -126,14 +126,20 @@ export class FournisseurUpdateComponent {
   }
 
   loadDevisesList() {
-    this.devisesService.findAllOptimized().subscribe({
-      next: data => this.devisesList = data,
+    this.devisesService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+      next: data => {
+        this.devisesList = data;
+        console.log("devises List :",data);
+      },
       error: err => console.log(err)
     })
   }
   loadNiveauPrixList() {
-    this.niveauPrixService.findAllOptimized().subscribe({
-      next: data => this.niveauPrixList = data,
+    this.niveauPrixService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+      next: data => {
+        this.niveauPrixList = data;
+        console.log("niveauPrix List:",data);
+      },
       error: err => console.log(err)
     })
   }

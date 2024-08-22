@@ -38,7 +38,8 @@ private List<ClientProduitNiveauPrix> clientProduitNiveauPrix;
 @ManyToOne(fetch = FetchType.LAZY)
 private Entreprise entreprise;
 private LocalDate creationDate;
-
+private Long idNiveauPrix;
+private Long idEntreprise;
 public Client() {
 }
 public Client(Long id, String label) {
@@ -50,8 +51,21 @@ public Long getId() {
 return id;
 }
 public void setId(Long id) {
-this.id = id;
+this.idNiveauPrix = id;
 }
+
+    public Long getIdNiveauPrix() {
+        return idNiveauPrix;
+    }
+    public void setIdNiveauPrix(Long id) {
+        this.idNiveauPrix = id;
+    }
+    public Long getIdEntreprise() {
+        return idEntreprise;
+    }
+    public void setIdEntreprise(Long id) {
+        this.idEntreprise = id;
+    }
 public String getNom() {
 return nom;
 }

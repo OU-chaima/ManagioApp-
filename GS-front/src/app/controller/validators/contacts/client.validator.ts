@@ -9,16 +9,17 @@ import {AdresseValidator} from 'src/app/controller/validators/adresse/adresse.va
 import {LangueEnum} from 'src/app/controller/enums/langue-enum'
 
 export class ClientValidator extends Validator< Client> {
+
   nom = new ValidatorItem<string>(
-    () => this.item().nom,
-    (value) => this.item().nom = value,
-    (value) => {
-      this.nom.stringValidators
-        ?.required()
-        ?.pattern(/^[a-zA-Z]+$/,'Nom invalide,Veuillez entrer un nom contenant uniquement des lettres alphabétiques')
-    ?.valid()
-    }
-  )
+      () => this.item().nom,
+      (value) => this.item().nom = value,
+      (value) => {
+        this.nom.stringValidators
+            ?.required()
+            ?.pattern(/^[a-zA-Z\s]+$/, 'Nom invalide, veuillez entrer un nom contenant uniquement des lettres alphabétiques et des espaces')
+            ?.valid()
+      }
+  );
   code = new ValidatorItem<string>(
     () => this.item().code,
     (value) => this.item().code = value,
@@ -45,16 +46,16 @@ export class ClientValidator extends Validator< Client> {
 
 
 
-  siteweb = new ValidatorItem<string>(
-    () => this.item().siteweb,
-    (value) => this.item().siteweb = value,
-    (value) => {
-      this.siteweb.stringValidators
-        ?.required()
-        ?.pattern(/^(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/\S*)?$/, 'Site web invalide. Veuillez entrer un site web sous la forme : http://www.exemple.com')
-        ?.valid()
-    }
-  )
+  // siteweb = new ValidatorItem<string>(
+  //   () => this.item().siteweb,
+  //   (value) => this.item().siteweb = value,
+  //   (value) => {
+  //     this.siteweb.stringValidators
+  //       ?.required()
+  //       ?.pattern(/^(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/\S*)?$/, 'Site web invalide. Veuillez entrer un site web sous la forme : http://www.exemple.com')
+  //       ?.valid()
+  //   }
+  // )
   entreprise = new ValidatorItem<Entreprise>(
     () => this.item().entreprise,
     (value) => this.item().entreprise = value,
@@ -126,7 +127,7 @@ export class ClientValidator extends Validator< Client> {
     this.nom,
     this.code,
     this.email,
-    this.siteweb,
+   // this.siteweb,
     this.telephone,
     this.taxeNumero,
     this.rabais,

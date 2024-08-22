@@ -31,7 +31,6 @@ private double prixGros;
 private double prixDetailRecommande;
 private double prixAchat;
 private double disponible;
-
 @OneToOne()
 private NiveauStock niveauStock;
 @ManyToOne(fetch = FetchType.LAZY)
@@ -62,6 +61,7 @@ public Produit(Long id, String label) {
 // constructor to get optimized fields
 this.id = id;
 this.nom = label;
+
 }
 public Long getId() {
 return id;
@@ -215,6 +215,7 @@ this.entreprise = value;
     public void setDisponible(double disponible) {
         this.disponible = disponible;
     }
+
 
     @Override
 public boolean equals(Object object) {

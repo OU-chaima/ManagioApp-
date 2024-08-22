@@ -16,15 +16,15 @@ export class EmployeValidator extends AppUserValidator< Employe> {
     }
   )
   nom = new ValidatorItem<string>(
-    () => this.item().nom,
-    (value) => this.item().nom = value,
-    (value) => {
-      this.nom.stringValidators
-        ?.required()
-        ?.pattern(/^[a-zA-Z]+$/,'Nom invalide,Veuillez entrer un nom contenant uniquement des lettres alphabétiques')
-        ?.valid()
-    }
-  )
+      () => this.item().nom,
+      (value) => this.item().nom = value,
+      (value) => {
+        this.nom.stringValidators
+            ?.required()
+            ?.pattern(/^[a-zA-Z\s]+$/, 'Nom invalide, veuillez entrer un nom contenant uniquement des lettres alphabétiques et des espaces')
+            ?.valid()
+      }
+  );
   entreprise = new ValidatorItem<Entreprise>(
     () => this.item().entreprise,
     (value) => this.item().entreprise = value,
@@ -40,7 +40,7 @@ export class EmployeValidator extends AppUserValidator< Employe> {
     (value) => {
       this.prenom.stringValidators
         ?.required()
-        ?.pattern(/^[a-zA-Z]+$/,'Nom invalide,Veuillez entrer un nom contenant uniquement des lettres alphabétiques')
+          ?.pattern(/^[a-zA-Z\s]+$/,'Nom invalide,Veuillez entrer un nom contenant uniquement des lettres alphabétiques')
         ?.valid()
     }
   )

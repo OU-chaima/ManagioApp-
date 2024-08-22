@@ -21,7 +21,7 @@
                             <th scope="col">Téléphone</th>
                             <th scope="col">Adresse</th>
                             <th scope="col">Niveau de prix</th>
-                            <th scope="col">Entreprise</th>
+<!--                            <th scope="col">Entreprise</th>-->
                             <th scope="col">Actions</th>
                         </tr>
                         </thead>
@@ -45,7 +45,7 @@
                         </td>
                          <td>{{ it.niveauPrix != null ? it.niveauPrix.nom: "null" }}</td>
 
-                         <td>{{ it.entreprise != null ? it.entreprise.nom: "null" }}</td>
+<!--                         <td>{{ it.entreprise != null ? it.entreprise.nom: "null" }}</td>-->
                         <td>
                                 <button cButton color routerLink="update" (click)="item = it">
                                   <svg cIcon name="cil-pen" size="xl" style="color: #61be04"></svg>

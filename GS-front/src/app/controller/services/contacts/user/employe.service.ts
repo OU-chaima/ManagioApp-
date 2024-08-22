@@ -83,6 +83,10 @@ export class EmployeService {
     return this.http.get<Array<Employe>>(`${this.api}/entreprise/${id}`);
   }
 
+    public findByAdmin(admin: string){
+        return this.http.get<Array<Employe>>(`${this.api}/admin/${admin}`);
+    }
+
   //------------- getters and setters -----------------------
   public get itemIsNull(): boolean {
     return this._item == undefined

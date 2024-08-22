@@ -22,12 +22,12 @@ export const routes: Routes = [
       {
         path: 'create',
         loadComponent: () => import('./employe/employe-create/employe-create.component').then(m => m.EmployeCreateComponent),
-        data: {title: 'Create Employe'}
+        data: {title: 'Créer un Employe'}
       },
       {
         path: 'update',
         loadComponent: () => import('./employe/employe-update/employe-update.component').then(m => m.EmployeUpdateComponent),
-        data: {title: 'update Employe'}
+        data: {title: 'Modifier un Employe'}
       },
     ]
     },

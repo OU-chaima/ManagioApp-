@@ -107,7 +107,7 @@ export class ProduitCreateComponent {
     this.service.keepData = false
     this.item.niveauStock = new NiveauStock()
 
-    this.niveauPrixService.findAll().subscribe({
+    this.niveauPrixService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
       next: value => {
         this.item.produitNiveauPrix = value.map(item => {
           let inst = new ProduitNiveauPrix()
@@ -136,9 +136,13 @@ export class ProduitCreateComponent {
     });
   }
 
+
   loadDevisesList() {
-    this.devisesService.findAllOptimized().subscribe({
-      next: data => this.devisesList = data,
+    this.devisesService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+      next: data => {
+        this.devisesList = data;
+        console.log("devises List :",data);
+      },
       error: err => console.log(err)
     })
   }

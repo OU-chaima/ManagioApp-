@@ -11,6 +11,7 @@ public interface EmployeDao extends JpaRepository<Employe, Long> {
 
     List<Employe> findByEntreprise(Entreprise entreprise);
 
+    List<Employe> findByAdmin(String admin);
     int deleteByIdIn(List<Long> ids);
     int deleteByAdresseId(Long id);
     Employe findByAdresseId(Long id);

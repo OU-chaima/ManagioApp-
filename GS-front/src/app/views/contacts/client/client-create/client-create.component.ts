@@ -88,8 +88,8 @@ export class ClientCreateComponent {
   private formBuilder: FormBuilder= inject(FormBuilder)
   protected validator = ClientValidator.init(() => this.item)
     .setAdresse(AdresseValidator.init(() => this.adresse))
-  protected devisesList!: Devises[]
-  protected niveauPrixList!: NiveauPrix[]
+    public devisesList!:Devises[];
+    protected niveauPrixList!: NiveauPrix[]
   protected taxeList!: Taxe[]
   protected entrepriseList!: Entreprise[]
   private toasterService = inject(ToasterService)
@@ -143,18 +143,28 @@ export class ClientCreateComponent {
   }
 
   // LOAD DATA
-  loadDevisesList() {
-    this.devisesService.findAll().subscribe({
-      next: data => this.devisesList = data,
-      error: err => console.log(err)
-    })
-  }
-  loadNiveauPrixList() {
-    this.niveauPrixService.findAll().subscribe({
-      next: data => this.niveauPrixList = data,
-      error: err => console.log(err)
-    })
-  }
+
+    loadDevisesList() {
+        this.devisesService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+            next: data => {
+                this.devisesList = data;
+                console.log("devises List :",data);
+            },
+            error: err => console.log(err)
+        })
+    }
+
+
+    loadNiveauPrixList() {
+        this.niveauPrixService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+            next: data => {
+                this.niveauPrixList = data;
+                console.log("niveauPrix List:",data);
+            },
+            error: err => console.log(err)
+        })
+    }
+
   loadTaxeList() {
     this.taxeService.findAll().subscribe({
       next: data => this.taxeList = data,
@@ -186,6 +196,8 @@ export class ClientCreateComponent {
 
   // METHODS
   create() {
+      this.item.idNiveauPrix = this.item.niveauPrix?.id;
+      this.item.idEntreprise = this.entrepriseSelectedService.getEntrepriseSelected();
     console.log(this.item)
     if (!this.validator.validate()) return;
     this.sending = true;

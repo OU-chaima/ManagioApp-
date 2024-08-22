@@ -344,6 +344,9 @@ public class EmployeServiceImpl implements EmployeService {
     }
 
 
+    public   List<Employe> findByAdmin(String username){
+        return dao.findByAdmin(username);
+    }
 
 
 

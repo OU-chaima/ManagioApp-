@@ -27,6 +27,7 @@ import {RolesListComponent} from "../roles-list/roles-list.component";
 import * as bootstrap from "bootstrap";
 import {PermissionsAcces} from "../../../../../controller/entities/contacts/user/PermissionsAcces";
 import {EntrepriseSelectedService} from "../../../../../controller/shared/entreprise-selected.service";
+import {UserInfosService} from "../../../../../controller/shared/user-infos.service";
 
 @Component({
   selector: 'app-employe-update',
@@ -65,6 +66,7 @@ export class EmployeUpdateComponent {
   private router = inject(Router)
   private service = inject(EmployeService)
   private entrepriseService = inject(EntrepriseService)
+  private userInfosService = inject(UserInfosService);
 
   private entrepriseSelectedService = inject(EntrepriseSelectedService)
 
@@ -105,11 +107,14 @@ export class EmployeUpdateComponent {
 
 
   loadEntrepriseList() {
-    this.entrepriseService.findAll().subscribe({
-      next: data => this.entrepriseList = data,
-      error: err => console.log(err)
-    })
+    this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe(res => {
+      console.log(res);
+      this.entrepriseList = res;
+    }, error => {
+      console.log(error);
+    });
   }
+
 
   // METHODS
   update() {

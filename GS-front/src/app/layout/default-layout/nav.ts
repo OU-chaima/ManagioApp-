@@ -51,8 +51,13 @@ export const navItems: INavData[] = [
       {
         name: ' Produit',
         url: '/produit/produit',
-
+        iconComponent: {name: 'cib-codesandbox'},
       },
+      {
+        name: 'Comparateur de prix',
+        url: '/produit/compare',
+        iconComponent: {name: 'cib-deezer'},
+      }
     ],
   },
   {

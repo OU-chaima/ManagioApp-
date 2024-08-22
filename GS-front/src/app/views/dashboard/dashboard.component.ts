@@ -216,12 +216,21 @@ export class DashboardComponent implements OnInit {
 
 
   public getNbrClients(id: number){
-    this.clientService.getNbClients(id).subscribe( res => {
-      this.nbrClients = res;
-      console.log("nbr Clients : ", this.nbrClients)
-    }, error => {
-      console.log(error);
-    });
+    // this.clientService.getNbClients(id).subscribe( res => {
+    //   this.nbrClients = res;
+    //   console.log("nbr Clients : ", this.nbrClients)
+    // }, error => {
+    //   console.log(error);
+    // });
+
+    this.clientService.getClients(id).subscribe({
+      next: data => {
+        this.nbrClients = data.length;
+        console.log("Clients :",data);
+        console.log("Clients length:",data.length);
+      },
+      error: err => console.log(err)
+    })
   }
 
 
@@ -297,68 +306,87 @@ export class DashboardComponent implements OnInit {
 
 
   getEmployers(){
-    if(this.entrepriseSelectedService.getEntrepriseSelected() !=0 ){
-      this.employeService.findAll().subscribe(data => {
-        this.employers = data;
-        this.employers = this.employers.filter(employe => {
-          const hasPermissionForEntrepriseId = employe.permissionsAcces?.some((permission: PermissionsAcces) =>
-              permission.entrepriseId == this.entrepriseSelectedService.getEntrepriseSelected());
-          return hasPermissionForEntrepriseId;
-        });
-        this.userList = this.employers.map(employe => {
-          const entrepriseIdsSet = new Set<number>();
-          employe.permissionsAcces?.forEach(permission => {
-            if (permission.entrepriseId) {
-              entrepriseIdsSet.add(permission.entrepriseId);
-            }
-          });
-          return {
-            nom: employe.nom || '',
-            prenom: employe.prenom || '',
-            usage: entrepriseIdsSet.size,
-            email: employe.email || '',
-            color: this.generateRandomColor()
-          };
-        });
+
+    this.employeService.findByAdmin(this.userInfosService.getUsername()).subscribe( res => {
+      this.employers = res;
+      console.log("employers : ", res);
+      // @ts-ignore
+      this.userList = res.map(employe => {
+        return {
+          nom: employe.nom || '',
+          prenom: employe.prenom || '',
+          usage: employe.entreprisesAdroitAcces?.length,
+          email: employe.email || '',
+          color: this.generateRandomColor()
+        };
       });
+      console.log(this.userList);
+    }, error => {
+      console.log(error);
+    });
 
-
-    }else{
-      this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe( (res: Entreprise[]) => {
-        this.entreprises = res;
-        console.log("Entreprises : ", this.entreprises)
-        if (this.entreprises && this.entreprises.length > 0) {
-          this.employeService.findAll().subscribe(data => {
-            this.employers = data;
-            this.employers = this.employers.filter(employe => {
-              const hasPermissionForEntrepriseId = employe.permissionsAcces?.some((permission: PermissionsAcces) =>
-                  permission.entrepriseId == this.entreprises[0].id);
-              this.entrepriseSelectedService.setEntrepriseSelected(this.entreprises[0].id)
-              return hasPermissionForEntrepriseId;
-            });
-            this.userList = this.employers.map(employe => {
-              const entrepriseIdsSet = new Set<number>();
-              employe.permissionsAcces?.forEach(permission => {
-                if (permission.entrepriseId) {
-                  entrepriseIdsSet.add(permission.entrepriseId);
-                }
-              });
-              return {
-                nom: employe.nom || '',
-                prenom: employe.prenom || '',
-                usage: entrepriseIdsSet.size,
-                email: employe.email || '',
-                color: this.generateRandomColor()
-              };
-            });
-            console.log(this.userList);
-          });
-
-        }
-      }, error => {
-        console.log(error);
-      });
-    }
+    // if(this.entrepriseSelectedService.getEntrepriseSelected() !=0 ){
+    //   this.employeService.findAll().subscribe(data => {
+    //     this.employers = data;
+    //     this.employers = this.employers.filter(employe => {
+    //       const hasPermissionForEntrepriseId = employe.permissionsAcces?.some((permission: PermissionsAcces) =>
+    //           permission.entrepriseId == this.entrepriseSelectedService.getEntrepriseSelected());
+    //       return hasPermissionForEntrepriseId;
+    //     });
+    //     this.userList = this.employers.map(employe => {
+    //       const entrepriseIdsSet = new Set<number>();
+    //       employe.permissionsAcces?.forEach(permission => {
+    //         if (permission.entrepriseId) {
+    //           entrepriseIdsSet.add(permission.entrepriseId);
+    //         }
+    //       });
+    //       return {
+    //         nom: employe.nom || '',
+    //         prenom: employe.prenom || '',
+    //         usage: entrepriseIdsSet.size,
+    //         email: employe.email || '',
+    //         color: this.generateRandomColor()
+    //       };
+    //     });
+    //   });
+    //
+    //
+    // }else{
+    //   this.entrepriseService.findByAdmin(this.userInfosService.getUsername()).subscribe( (res: Entreprise[]) => {
+    //     this.entreprises = res;
+    //     console.log("Entreprises : ", this.entreprises)
+    //     if (this.entreprises && this.entreprises.length > 0) {
+    //       this.employeService.findAll().subscribe(data => {
+    //         this.employers = data;
+    //         this.employers = this.employers.filter(employe => {
+    //           const hasPermissionForEntrepriseId = employe.permissionsAcces?.some((permission: PermissionsAcces) =>
+    //               permission.entrepriseId == this.entreprises[0].id);
+    //           this.entrepriseSelectedService.setEntrepriseSelected(this.entreprises[0].id)
+    //           return hasPermissionForEntrepriseId;
+    //         });
+    //         this.userList = this.employers.map(employe => {
+    //           const entrepriseIdsSet = new Set<number>();
+    //           employe.permissionsAcces?.forEach(permission => {
+    //             if (permission.entrepriseId) {
+    //               entrepriseIdsSet.add(permission.entrepriseId);
+    //             }
+    //           });
+    //           return {
+    //             nom: employe.nom || '',
+    //             prenom: employe.prenom || '',
+    //             usage: entrepriseIdsSet.size,
+    //             email: employe.email || '',
+    //             color: this.generateRandomColor()
+    //           };
+    //         });
+    //         console.log(this.userList);
+    //       });
+    //
+    //     }
+    //   }, error => {
+    //     console.log(error);
+    //   });
+    // }
   }
 
 

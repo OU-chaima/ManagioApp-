@@ -141,15 +141,24 @@ export class FournisseurCreateComponent {
     });
   }
 
+
+
   loadDevisesList() {
-    this.devisesService.findAllOptimized().subscribe({
-      next: data => this.devisesList = data,
+    this.devisesService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+      next: data => {
+        this.devisesList = data;
+        console.log("devises List :",data);
+      },
       error: err => console.log(err)
     })
   }
+
   loadNiveauPrixList() {
-    this.niveauPrixService.findAllOptimized().subscribe({
-      next: data => this.niveauPrixList = data,
+    this.niveauPrixService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+      next: data => {
+        this.niveauPrixList = data;
+        console.log("niveauPrix List:",data);
+      },
       error: err => console.log(err)
     })
   }
@@ -159,9 +168,13 @@ export class FournisseurCreateComponent {
       error: err => console.log(err)
     })
   }
+
   loadTaxeList() {
-    this.taxeService.findAllOptimized().subscribe({
-      next: data => this.taxeList = data,
+    this.taxeService.findByEntrepriseId(this.entrepriseSelectedService.getEntrepriseSelected()).subscribe({
+      next: data => {
+        this.taxeList = data;
+        console.log("taxe List:",data);
+      },
       error: err => console.log(err)
     })
   }

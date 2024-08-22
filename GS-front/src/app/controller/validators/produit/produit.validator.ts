@@ -9,16 +9,16 @@ import {NiveauStockValidator} from 'src/app/controller/validators/inventaire/niv
 
 export class ProduitValidator extends Validator< Produit> {
   nom = new ValidatorItem<string>(
-    () => this.item().nom,
-    (value) => this.item().nom = value,
-    (value) => {
-      this.nom.stringValidators
-        ?.required()
-        ?.pattern(/^[a-zA-Z]+$/,'Nom invalide,Veuillez entrer un nom contenant uniquement des lettres alphabétiques')
+      () => this.item().nom,
+      (value) => this.item().nom = value,
+      (value) => {
+        this.nom.stringValidators
+            ?.required()
+            ?.pattern(/^[a-zA-Z\s]+$/, 'Nom invalide, veuillez entrer un nom contenant uniquement des lettres alphabétiques et des espaces')
+            ?.valid()
+      }
+  );
 
-        ?.valid()
-    }
-  )
   sku = new ValidatorItem<string>(
     () => this.item().sku,
     (value) => this.item().sku = value,
