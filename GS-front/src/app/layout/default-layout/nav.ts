@@ -122,12 +122,12 @@ export const navItems: INavData[] = [
         iconComponent: {name: 'cil-description'},
 
       },
-      {
-        name: 'Bon de livraison',
-        url: '/inventaire/livraison/livraison',
-        iconComponent: {name: 'cil-description'},
-
-      },
+      // {
+      //   name: 'Bon de livraison',
+      //   url: '/inventaire/livraison/livraison',
+      //   iconComponent: {name: 'cil-description'},
+      //
+      // },
     ],
   },
   {
@@ -308,13 +308,13 @@ export const navItems2: INavData[] = [
         iconComponent: {name: 'cil-description'},
 
       },
-      {
-        name: 'Bon de livraison',
-        url: '/inventaire/livraison/livraison',
-
-        iconComponent: {name: 'cil-description'},
-
-      },
+      // {
+      //   name: 'Bon de livraison',
+      //   url: '/inventaire/livraison/livraison',
+      //
+      //   iconComponent: {name: 'cil-description'},
+      //
+      // },
     ],
   },
 

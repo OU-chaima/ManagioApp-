@@ -24,8 +24,8 @@ import {generatePageNumbers, paginationSizes} from "src/app/controller/utils/pag
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './retour-produit-produit-list.Component.html',
-  styleUrl: './retour-produit-produit-list.Component.scss'
+  templateUrl: './retour-produit-produit-list.component.html',
+  styleUrl: './retour-produit-produit-list.component.scss'
 })
 export class RetourProduitProduitListComponent {
   protected loading = false

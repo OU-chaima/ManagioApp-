@@ -26,8 +26,8 @@ import {EntrepriseSelectedService} from "../../../../../controller/shared/entrep
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './bon-commande-list.Component.html',
-  styleUrl: './bon-commande-list.Component.scss'
+  templateUrl: './bon-commande-list.component.html',
+  styleUrl: './bon-commande-list.component.scss'
 })
 export class BonCommandeListComponent {
   protected loading = false

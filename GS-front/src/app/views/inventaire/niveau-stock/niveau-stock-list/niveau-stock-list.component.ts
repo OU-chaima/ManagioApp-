@@ -33,8 +33,8 @@ import {TokenService} from "../../../../controller/auth/services/token.service";
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './niveau-stock-list.Component.html',
-  styleUrl: './niveau-stock-list.Component.scss'
+  templateUrl: './niveau-stock-list.component.html',
+  styleUrl: './niveau-stock-list.component.scss'
 })
 export class NiveauStockListComponent {
   protected loading = false

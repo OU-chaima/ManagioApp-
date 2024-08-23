@@ -24,8 +24,8 @@ import {generatePageNumbers, paginationSizes} from "src/app/controller/utils/pag
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './devis-produit-list.Component.html',
-  styleUrl: './devis-produit-list.Component.scss'
+  templateUrl: './devis-produit-list.component.html',
+  styleUrl: './devis-produit-list.component.scss'
 })
 export class DevisProduitListComponent {
   protected loading = false

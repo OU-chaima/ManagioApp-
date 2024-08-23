@@ -24,8 +24,8 @@ import {generatePageNumbers, paginationSizes} from "src/app/controller/utils/pag
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './facture-produit-list.Component.html',
-  styleUrl: './facture-produit-list.Component.scss'
+  templateUrl: './facture-produit-list.component.html',
+  styleUrl: './facture-produit-list.component.scss'
 })
 export class FactureProduitListComponent {
   protected loading = false

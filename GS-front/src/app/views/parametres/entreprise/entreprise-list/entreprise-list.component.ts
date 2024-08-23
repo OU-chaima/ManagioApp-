@@ -52,8 +52,8 @@ import {NgIf} from "@angular/common";
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective, AvatarComponent, NgIf,
   ],
-  templateUrl: './entreprise-list.Component.html',
-  styleUrl: './entreprise-list.Component.scss'
+  templateUrl: './entreprise-list.component.html',
+  styleUrl: './entreprise-list.component.scss'
 })
 export class EntrepriseListComponent {
   protected loading = false

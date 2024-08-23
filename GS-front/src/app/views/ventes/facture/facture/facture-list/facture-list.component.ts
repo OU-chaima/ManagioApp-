@@ -34,8 +34,8 @@ import {Entreprise} from "../../../../../controller/entities/parametres/entrepri
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective, NgIf,
   ],
-  templateUrl: './facture-list.Component.html',
-  styleUrl: './facture-list.Component.scss'
+  templateUrl: './facture-list.component.html',
+  styleUrl: './facture-list.component.scss'
 })
 export class FactureListComponent {
   protected loading = false

@@ -26,8 +26,8 @@ import {Devises} from "../../../../controller/entities/parametres/devises";
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './nouvelle-devise-list.Component.html',
-  styleUrl: './nouvelle-devise-list.Component.scss'
+  templateUrl: './nouvelle-devise-list.component.html',
+  styleUrl: './nouvelle-devise-list.component.scss'
 })
 export class NouvelleDeviseListComponent {
   protected loading = false

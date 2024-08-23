@@ -29,8 +29,8 @@ import {UserInfosService} from "../../../../../controller/shared/user-infos.serv
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './employe-list.Component.html',
-  styleUrl: './employe-list.Component.scss'
+  templateUrl: './employe-list.component.html',
+  styleUrl: './employe-list.component.scss'
 })
 export class EmployeListComponent {
   protected loading = false

@@ -56,8 +56,8 @@ import {TokenService} from "../../../../controller/auth/services/token.service";
         DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
         ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective, ContainerComponent, FormControlDirective, InputGroupComponent, InputGroupTextDirective,
     ],
-  templateUrl: './client-list.Component.html',
-  styleUrl: './client-list.Component.scss'
+  templateUrl: './client-list.component.html',
+  styleUrl: './client-list.component.scss'
 })
 export class ClientListComponent {
   protected loading = false

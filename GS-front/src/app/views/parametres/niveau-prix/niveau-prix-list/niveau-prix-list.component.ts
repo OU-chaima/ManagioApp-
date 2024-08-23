@@ -25,8 +25,8 @@ import {EntrepriseSelectedService} from "../../../../controller/shared/entrepris
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './niveau-prix-list.Component.html',
-  styleUrl: './niveau-prix-list.Component.scss'
+  templateUrl: './niveau-prix-list.component.html',
+  styleUrl: './niveau-prix-list.component.scss'
 })
 export class NiveauPrixListComponent {
   protected loading = false

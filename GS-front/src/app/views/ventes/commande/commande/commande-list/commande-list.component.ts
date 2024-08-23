@@ -26,8 +26,8 @@ import {Fournisseur} from "../../../../../controller/entities/contacts/fournisse
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './commande-list.Component.html',
-  styleUrl: './commande-list.Component.scss'
+  templateUrl: './commande-list.component.html',
+  styleUrl: './commande-list.component.scss'
 })
 export class CommandeListComponent {
   protected loading = false

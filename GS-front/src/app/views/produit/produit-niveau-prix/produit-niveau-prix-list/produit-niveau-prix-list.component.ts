@@ -24,8 +24,8 @@ import {generatePageNumbers, paginationSizes} from "src/app/controller/utils/pag
     DropdownComponent, DropdownToggleDirective, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective,
     ModalComponent, ModalToggleDirective, ModalHeaderComponent, ModalBodyComponent, TooltipDirective, ModalFooterComponent, PopoverDirective, ModalTitleDirective, ButtonCloseDirective,
   ],
-  templateUrl: './produit-niveau-prix-list.Component.html',
-  styleUrl: './produit-niveau-prix-list.Component.scss'
+  templateUrl: './produit-niveau-prix-list.component.html',
+  styleUrl: './produit-niveau-prix-list.component.scss'
 })
 export class ProduitNiveauPrixListComponent {
   protected loading = false
