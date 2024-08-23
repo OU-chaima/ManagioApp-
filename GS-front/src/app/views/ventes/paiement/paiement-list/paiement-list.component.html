@@ -18,7 +18,6 @@
                         <th scope="col">Date Paiement</th>
                         <th scope="col">Montant Paye</th>
                         <th scope="col">Methode Paiement</th>
-                        <th scope="col">Entreprise</th>
                         <th scope="col">Actions</th>
                     </tr>
                     </thead>
@@ -29,7 +28,7 @@
                             <td>{{ it.datePaiement }}</td>
                             <td>{{ it.montantPaye }}</td>
                             <td>{{ it.methodePaiement != null ? it.methodePaiement.nom: "null" }}</td>
-                            <td>{{ it.entreprise != null ? it.entreprise.nom: "null" }}</td>
+
                       <td>
                           <button cButton color routerLink="update" (click)="item = it">
                                 <svg cIcon name="cil-pen" size="xl"  style="color: #61be04"></svg>

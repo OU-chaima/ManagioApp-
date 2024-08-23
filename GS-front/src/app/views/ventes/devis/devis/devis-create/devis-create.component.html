@@ -7,13 +7,13 @@
         </c-nav-item>
       }
       <c-nav-item class="p-2 ms-auto">
-        <button cButton color="secondary" variant="outline" routerLink="/ventes/facture/facture" (click)="cancel()">
+        <button cButton color="secondary" variant="outline" routerLink="/ventes/devis/devis" (click)="cancel()">
           Annuler
         </button>
       </c-nav-item>
 
       <c-nav-item class="p-2">
-        <button cButton color="dark" (click)="reset()">Reset</button>
+        <button cButton color="dark" (click)="reset()">Réinitialiser</button>
       </c-nav-item>
       <!--  <c-nav-item class="p-2">
           <button cButton color="dark" (click)="generateDocument()">pdf</button>
@@ -25,7 +25,7 @@
           } @else {
             <svg cIcon name="cilPlus"></svg>
           }
-          Create
+          Créer
         </button>
       </c-nav-item>
     </c-nav>
@@ -224,7 +224,7 @@
                 <!-- (ngModelChange)="updateDisponible(it)-->
               </td>
               <td>{{ it.produit?.taxe?.nom }}</td>
-              <td>{{ it.disponible }}</td>
+                  <input type="number" [(ngModel)]="it.quantite" (ngModelChange)="onInputChange(it)">
               <td>
                 <input type="number" [(ngModel)]="it.disque"/>
               </td>
@@ -257,12 +257,10 @@
       <input cFormControl id="qte" type="number" [value]="calculerSommeQuantite(devisProduit)" readonly name="qte"/>
       <c-form-feedback [valid]="false">{{ validator.totalUnites.message }}</c-form-feedback>
     </c-col>
-    <c-col sm="4">
-      <label cLabel for="remiseGlobal">Remise Global</label>
-      <input cFormControl id="remiseGlobal" type="number"  [(ngModel)]="item.remiseGlobal"
-             name="remiseGlobal" />
-      <c-form-feedback [valid]="false">{{ item.remiseGlobal }}</c-form-feedback>
-    </c-col>
+      <c-col sm="4">
+          <label cLabel for="sommeRemise"  style="color: black;font-family: 'Times New Roman';font-size: 18px;font-weight: bold">Remise Global</label>
+          <input cFormControl id="sommeRemise" type="number" [value]="calculeRemiseGlobal(devisProduit)" readonly name="sommeRemise"/>
+      </c-col>
     <c-col sm="4">
       <label cLabel for="stotal"  style="color: black;font-family: 'Times New Roman';font-size: 18px;font-weight: bold">Sous total</label>
       <input cFormControl id="stotal" type="number" [value]="calculerSommeSousTotal(devisProduit)" readonly name="stotal"/>

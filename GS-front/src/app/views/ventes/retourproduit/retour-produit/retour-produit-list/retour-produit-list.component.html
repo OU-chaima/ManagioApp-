@@ -15,8 +15,6 @@
                     <thead class="thead-light">
                     <tr>
                         <th scope="col">Code</th>
-                        <th scope="col">Note Credit</th>
-                        <th scope="col">Remboursement</th>
                         <th scope="col">Client</th>
                         <th scope="col">Entreprise</th>
                         <th scope="col">Actions</th>
@@ -26,10 +24,8 @@
                     @for (it of retourProduitList; track it; let i = $index) {
                     <tr>
                          <th>{{ it.code }}</th>
-                            <td>{{ it.noteCredit != null ? it.noteCredit.code: "null" }}</td>
-                            <td>{{ it.remboursements != null ? it.remboursements.code: "null" }}</td>
-                            <td>{{ it.client != null ? it.client.code: "null" }}</td>
-                            <td>{{ it.entreprise != null ? it.entreprise.id: "null" }}</td>
+                            <td>{{ it.client != null ? it.client.nom: "null" }}</td>
+                            <td>{{ it.entreprise != null ? it.entreprise.nom: "null" }}</td>
                           <td>
                               <button cButton color routerLink="update" (click)="item = it">
                                 <svg cIcon name="cil-pen" size="xl"  style="color: #61be04"></svg>
