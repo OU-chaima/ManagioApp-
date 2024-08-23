@@ -15,6 +15,7 @@ import {TokenService} from "../../../controller/auth/services/token.service";
 import {PaiementService} from "../../../controller/services/ventes/paiement.service";
 import {EntrepriseSelectedService} from "../../../controller/shared/entreprise-selected.service";
 import {Paiement} from "../../../controller/entities/ventes/paiement";
+import {DecimalPipe} from "@angular/common";
 
 
 @Component({
@@ -22,7 +23,7 @@ import {Paiement} from "../../../controller/entities/ventes/paiement";
     templateUrl: './widgets-dropdown.component.html',
     styleUrls: ['./widgets-dropdown.component.scss'],
     standalone: true,
-    imports: [RowComponent, ColComponent, DropdownComponent]
+    imports: [RowComponent, ColComponent, DropdownComponent, DecimalPipe]
 })
 export class WidgetsDropdownComponent implements OnInit {
 

@@ -16,7 +16,6 @@
             <th scope="col">Nom</th>
             <th scope="col">Sku</th>
             <th scope="col">Disponible</th>
-            <th scope="col">Entreprise</th>
             <th scope="col">Actions</th>
           </tr>
           </thead>
@@ -27,7 +26,6 @@
                   <td>{{ it.nom }}</td>
                   <td>{{ it.sku }}</td>
                   <td>{{ it.disponible }}</td>
-                  <td>{{ it.entreprise != null ? it.entreprise.id : "null" }}</td>
                           <td>
                             <button cButton color routerLink="update" (click)="item ">
                               <svg cIcon name="cil-pen" size="xl"  style="color: #61be04"></svg>
