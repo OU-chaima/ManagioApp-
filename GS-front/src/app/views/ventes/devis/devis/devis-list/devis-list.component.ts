@@ -9,7 +9,7 @@ import {
 } from "@coreui/angular";
 import {DevisService} from "src/app/controller/services/ventes/devis/devis.service";
 import {Devis} from "src/app/controller/entities/ventes/devis/devis";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {IconDirective} from "@coreui/icons-angular";
 import {generatePageNumbers, paginationSizes} from "src/app/controller/utils/pagination/pagination";
 import {EntrepriseSelectedService} from "../../../../../controller/shared/entreprise-selected.service";
@@ -33,6 +33,7 @@ export class DevisListComponent {
   protected paginating = false
   protected currentIndex: number  = 0
   protected deleteModel = false
+  private router = inject(Router);
 
   public devisList!:Devis[];
   private entrepriseSelectedService = inject(EntrepriseSelectedService);
@@ -64,6 +65,11 @@ export class DevisListComponent {
         console.log(err)
       }
     })
+  }
+
+  public navigateToPdfCreate() {
+    this.service.keepData = true
+    this.router.navigate(['/ventes/devis/devis/devispdf']).then()
   }
 
   // GETTERS AND SETTERS

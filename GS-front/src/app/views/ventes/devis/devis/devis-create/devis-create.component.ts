@@ -316,7 +316,7 @@ export class DevisCreateComponent {
           this.router.navigate([this.returnUrl]).then()
           return;
         }
-        this.router.navigate(["/ventes/devis/devis/devisautre"]).then()
+        this.router.navigate(["/ventes/devis/devis"]).then()
         this.toasterService.toast({message: "Un nouveau devis a été ajouté", color: "success"})
 
       },
@@ -449,6 +449,16 @@ export class DevisCreateComponent {
   deleteDevisProduit(itemDP: DevisProduit): void {
     this.item.devisProduit = this.item.devisProduit?.filter(item => item !== itemDP);
   }
+
+
+  calculeRemiseGlobal(devieProduitList: DevisProduit[]): number {
+    let number = devieProduitList.reduce((sommeRemise, devieProduit) => {
+      return sommeRemise + (devieProduit.disque || 0);
+    }, 0);
+    this.item.remiseGlobal = number + this.item.rabais;
+    return this.item.remiseGlobal;
+  }
+
   calculerSommeSousTotal(devieProduits: DevisProduit[]): string {
     const somme = devieProduits.reduce((total, devieProduit) => {
       if (devieProduit?.quantite && devieProduit?.prix) {
@@ -460,6 +470,7 @@ export class DevisCreateComponent {
     this.item.sousTotal = somme
     return somme.toFixed(2);
   }
+
   calculerSommeTotale(devieProduitList: DevisProduit[]): number {
     const sommeTotale = devieProduitList.reduce((somme, devieProduit) => {
       const total = this.calculerTotal(devieProduit);
@@ -483,51 +494,35 @@ export class DevisCreateComponent {
 
   calculerTotal(  devisProduit: DevisProduit):number {
 
-    console.log(this.item)
-    if (devisProduit.produit) {      console.log("...............")
+    console.log(this.item);
+    let total = 0;
+    if (devisProduit.produit) {
       let prixProduit = 0;
-      devisProduit?.produit?.produitNiveauPrix?.forEach(e => {
-        if(this.item.niveauPrix?.id == e.niveauPrix?.id) {
-          console.log("hello");
-          prixProduit =  e.prix;
-        }
+      prixProduit = devisProduit.produit?.produitNiveauPrix?.filter(it => it.niveauPrix?.nom == this?.item.client?.niveauPrix?.nom)[0]?.prix || devisProduit.produit.prixGros;
 
-      });
-      console.log("prixProduit",prixProduit)
+      console.log("prixProduit", prixProduit);
+
+
       let sousTotal = devisProduit.quantite * prixProduit;
-      console.log("sousTotal",sousTotal)
       let taxeProduit = devisProduit.produit.taxe ? devisProduit.produit.taxe?.tauxImposition : 0.0;
-      console.log("taxeProduit",taxeProduit)
-      let taxeFacture =this.taxeList?.filter(it => it.id == this.item.taxe?.id)[0]?.tauxImposition;
-      console.log(this.item.taxe)
-      let taxeExpedition = devisProduit?.devis?.taxeExpedition != null ? devisProduit?.devis?.taxeExpedition?.tauxImposition : 0.0;
-      console.log("taxeExpedition", taxeExpedition)
-      // let disponible = item.produit?.niveauStockInitial-item.quantite;
-      //nconsole.log("disponible", disponible)
-      if(this.item.typeRabais !=null && this.item.typeRabais == this.TypeRabaisEnum.POURCENTAGE){
-        let totalAvecTaxe = sousTotal * (1 + ((taxeFacture + taxeProduit + taxeExpedition) / 100));
-        console.log("totalAvecTaxe",totalAvecTaxe)
-        if (taxeFacture == undefined) taxeFacture=0;
-        let disque = totalAvecTaxe * (this.item.rabais / 100);
-        console.log("disque",disque)
-        let totalFinal = totalAvecTaxe - disque;
-        console.log("totalFinal",totalFinal)
-        return totalFinal;}
-      if(this.item?.typeRabais !=null && this.item?.typeRabais == this.TypeRabaisEnum.MONTANT){
-        let totalAvecTaxe = sousTotal * (1 + ((taxeFacture + taxeProduit + taxeExpedition) / 100));
-        console.log("totalAvecTaxe",totalAvecTaxe)
-        if (taxeFacture == undefined) taxeFacture=0;
-        let disque = this.item.rabais;
-        console.log("disque",disque)
-        let totalFinal = totalAvecTaxe - disque;
-        console.log("totalFinal",totalFinal)
-        return totalFinal;
+
+      if (this.item.typeRabais != null && this.item.typeRabais == this.TypeRabaisEnum.POURCENTAGE) {
+        let totalAvecTaxe = sousTotal * (1 + ((taxeProduit) / 100));
+        let disque = totalAvecTaxe * (devisProduit.disque / 100);
+        total = totalAvecTaxe - disque;
+      }
+
+      if (this.item?.typeRabais != null && this.item?.typeRabais == this.TypeRabaisEnum.MONTANT) {
+        let totalAvecTaxe = sousTotal * (1 + ((taxeProduit) / 100));
+        let disque = devisProduit.disque;
+        total = totalAvecTaxe - disque;
       }
     }
-    return 0;
+    return parseFloat(total.toFixed(2));
+
   }
 
-
+  protected dispo = 0;
   public addDevieProuits(produit: Produit): void {
     console.log(produit);
     if (this.item.devisProduit == null) {
@@ -540,6 +535,7 @@ export class DevisCreateComponent {
     console.log("produit",produit);
     devisProduit.disque = 0
     devisProduit.quantite = 1
+    this.dispo = produit.disponible;
     produit.disponible = produit?.niveauStockInitial - devisProduit?.quantite;
     console.log("disponible",produit.disponible);
     devisProduit.disponible = produit.disponible
@@ -551,12 +547,22 @@ export class DevisCreateComponent {
 
     console.log( "niveau prix du client",this?.client?.niveauPrix?.id);
     console.log(devisProduit.prix);
-    devisProduit.total = this.calculerTotal(this.itemDP);
+    devisProduit.total = this.calculerTotal(devisProduit);
     console.log(devisProduit.total);
 
     this.item.devisProduit = [...this.item.devisProduit, devisProduit]
     console.log(this.item.devisProduit)
   }
+
+  public onInputChange(devisProduit: DevisProduit): void {
+    if (devisProduit.quantite > 0 && devisProduit.disque > 0) {
+      if (devisProduit.produit) {
+        devisProduit.produit.disponible = this.dispo - devisProduit.quantite;
+      }
+      devisProduit.total = this.calculerTotal(devisProduit);
+    }
+  }
+
   public get returnUrl() {
     return this.service.returnUrl;
   }
