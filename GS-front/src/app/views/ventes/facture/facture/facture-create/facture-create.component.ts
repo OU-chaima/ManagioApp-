@@ -126,7 +126,6 @@ export class FactureCreateComponent implements OnChanges {
   private userInfosService = inject(UserInfosService);
   private produitNiveauPrixService=inject(ProduitNiveauPrixService);
 
-
   protected taxeList!: Taxe[]
   protected clientList!: Client[]
   protected devisesList!: Devises[]
@@ -315,6 +314,7 @@ export class FactureCreateComponent implements OnChanges {
   create() {
     this.notificationService.handelcreate('creation d\'une facture','Une nouvelle facture à été crée par l\'employer' , this.entrepriseSelectedService.getEntrepriseSelected())
     console.log(this.item)
+    console.log(this.item.client)
     if (!this.validator.validate()) {
       console.log(this.validator);
       return;
@@ -594,24 +594,33 @@ export class FactureCreateComponent implements OnChanges {
     this.item.factureProduit = this.item.factureProduit?.filter(item => item !== itemFP);
   }
 
-  calculerTotal(factureProduit1: FactureProduit): number {
+  calculerTotal(factureProduit1: FactureProduit): number  {
     console.log(this.item);
     // Vérifier si factureProduit1.produit existe
     if (factureProduit1.produit) {
       let prix = factureProduit1.prix || 0;
-      console.log("Produit Niveau Prix:", factureProduit1.produit);
-      factureProduit1.produit.produitNiveauPrix?.forEach(e => {
-        console.log("Niveau de Prix ID:", e.niveauPrix?.id);
-        console.log("Client Niveau Prix ID:", this.item.client?.niveauPrix?.id);
-        if (this.item.client?.niveauPrix?.id == e.niveauPrix?.id) {
-          console.log("Niveau de prix trouvé...");
-          prix = e.prix;
+      console.log("Produit Niveau Prix:", factureProduit1.produit.id);
+
+      this.produitNiveauPrixService.findByProduitId(factureProduit1.produit.id).subscribe(produitNiveauPrix => {
+        console.log("Produit Niveau Prix récupéré:", produitNiveauPrix);
+        if (produitNiveauPrix && produitNiveauPrix.length > 0) {
+          produitNiveauPrix.forEach(e => {
+            console.log("Niveau de Prix ID:", e.niveauPrix?.id);
+            console.log("Client Niveau Prix ID:", this.item.client?.niveauPrix?.id);
+            if (this.item.client?.niveauPrix?.id == e.niveauPrix?.id) {
+              console.log("Niveau de prix trouvé...");
+              prix = e.prix;
+            } else {
+              console.log("Niveau de prix introuvable...");
+            }
+          });
         } else {
-          console.log("Niveau de prix introuvable...");
+          console.log("Produit Niveau Prix introuvable ou vide");
         }
       });
 
       console.log("prixProduit", prix);
+
 
       let sousTotal = (factureProduit1.quantite * prix);
       let taxeProduit = factureProduit1.produit.taxe ? factureProduit1.produit.taxe.tauxImposition : 0.0;

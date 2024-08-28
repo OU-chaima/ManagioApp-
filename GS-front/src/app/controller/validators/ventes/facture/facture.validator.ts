@@ -130,13 +130,13 @@ export class FactureValidator extends Validator< Facture> {
         ?.valid()
     }
   )*/
-  client = new ValidatorItem<Client>(
+ client = new ValidatorItem<Client>(
     () => this.item().client,
     (value) => this.item().client = value,
     (value) => {
       this.client.validators
-        ?.errorIf(value?.id == null, "Aucun Client n'a été fourni!")
-        ?.valid()
+        ?.errorIf(value?.nom == null || value?.nom === '', "Aucun Client n'a été fourni!")
+          ?.valid()
     }
   )
   devises = new ValidatorItem<Devises>(
