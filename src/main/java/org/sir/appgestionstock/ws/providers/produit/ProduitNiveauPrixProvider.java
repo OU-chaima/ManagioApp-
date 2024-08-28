@@ -14,7 +14,14 @@ import java.util.List;
 public class ProduitNiveauPrixProvider {
 @Autowired private ProduitNiveauPrixService service;
 @Autowired private ProduitNiveauPrixConverter converter;
-@GetMapping("/id/{id}")
+
+    private final ProduitNiveauPrixService produitNiveauPrixService;
+
+    public ProduitNiveauPrixProvider(ProduitNiveauPrixService produitNiveauPrixService) {
+        this.produitNiveauPrixService = produitNiveauPrixService;
+    }
+
+    @GetMapping("/id/{id}")
 public ResponseEntity<ProduitNiveauPrixDto> findById(@PathVariable Long id) {
 var result = service.findById(id);
 var resultDto = converter.toDto(result);
@@ -102,9 +109,10 @@ public ResponseEntity<Long> deleteByProduitId(@PathVariable Long id){
 service.deleteByProduitId(id);
 return ResponseEntity.ok(id);
 }
-    @GetMapping("/produit/id/{id}")
+
+    @GetMapping("/produit/{id}")
     public ResponseEntity<List<ProduitNiveauPrixDto>> findByProduitId(@PathVariable Long id){
-        var result = service.findByProduitId(id);
+        var result = produitNiveauPrixService.findByProduitId(id);
         var resultDto = converter.toDto(result);
         return ResponseEntity.ok(resultDto);
     }

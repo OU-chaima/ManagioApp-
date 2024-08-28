@@ -67,7 +67,7 @@ export class ProduitNiveauPrixService {
   }
 
   public findByProduitId(id: number){
-    return this.http.get<Array<ProduitNiveauPrix>>(`${this.api}/produit/id/${id}`);
+    return this.http.get<Array<ProduitNiveauPrix>>(`${this.api}/produit/${id}`);
   }
   public deleteByNiveauPrixId(id: number){
     return this.http.delete<number>(`${this.api}/niveauPrix/${id}`);

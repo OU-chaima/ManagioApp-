@@ -159,6 +159,7 @@ export class DevisValidator extends Validator< Devis> {
     this.code,
     this.dateExperation,
     this.dateCreation,
+
     this.rabais,
     this.totalUnites,
     this.remiseGlobal,

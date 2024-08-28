@@ -65,7 +65,6 @@
                 <input cFormControl id="dateCreation" type="date" placeholder="DateCreation" [(ngModel)]="item.dateCreation" name="dateCreation" [valid]="validator.dateCreation.valid" (blur)="validator.dateCreation.validate()"/>
                 <c-form-feedback [valid]="false">{{ validator.dateCreation.message }}</c-form-feedback>
             </c-col>
-
             <c-col sm="4">
               <svg cIcon name="cil-sort-descending"  style="color: blue ;font-size: 30px"></svg>
 
@@ -110,7 +109,6 @@
                     <c-form-feedback [valid]="false">{{ validator.taxe.message }}</c-form-feedback>
                 </c-input-group>
             </c-col>
-
             <c-col sm="4">
               <svg cIcon name="cilUser"  style="color: blue ;font-size: 30px"></svg>
 

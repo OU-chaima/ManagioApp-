@@ -176,6 +176,7 @@
               <td>
 <!--                <input type="number" [min]="0" [(ngModel)]="it.quantite" (ngModelChange)="it.disponible =  it.disponible?it.disponible - $event: it.disponible">-->
                 <input type="number" [(ngModel)]="it.quantite" (ngModelChange)="onInputChange(it)">
+
               </td>
               <td>{{ it.produit?.taxe?.nom }}</td>
               <td>{{ it.disponible }}</td>

@@ -69,10 +69,9 @@ Créer
 <!--            <select cSelect id="client" name="client" [(ngModel)]="client.id" [valid]="validator.client.valid" (blur)="validator.client.validate()">-->
 <!--              <option *ngFor="let it of clientList" [ngValue]="it">{{ it.nom }}</option>-->
 <!--            </select>-->
-            <select cSelect id="client" name="client" [(ngModel)]="client.id" [valid]="validator.client.valid" (blur)="validator.client.validate()">
-              @for (it of clientList; track it) {
-              <option [value]="it.id">{{ it.nom }}</option>
-              }
+
+            <select cSelect id="client" name="client" [(ngModel)]="client" [valid]="validator.client.valid" (blur)="validator.client.validate()">
+              <option *ngFor="let it of clientList" [ngValue]="it">{{ it.nom }}</option>
             </select>
             <button cButton color="secondary" type="button" variant="outline" (click)="navigateToClientCreate()">
               <svg cIcon name="cilPlus"></svg>
