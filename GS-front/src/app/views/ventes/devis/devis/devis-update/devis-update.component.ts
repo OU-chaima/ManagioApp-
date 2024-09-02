@@ -105,15 +105,7 @@ export class DevisUpdateComponent {
         this.item.taxe = taxeCreated.item
         this.validator.taxe.validate()
       }
-<<<<<<< HEAD
 
-=======
-      let taxeExpeditionCreated = this.taxeService.createdItemAfterReturn;
-      if (taxeExpeditionCreated.created) {
-        this.item.taxeExpedition = taxeExpeditionCreated.item
-        this.validator.taxeExpedition.validate()
-      }
->>>>>>> b6c09603400483e573d9c642c4fa9cd64d58db09
       let clientCreated = this.clientService.createdItemAfterReturn;
       if (clientCreated.created) {
         this.item.client = clientCreated.item

@@ -519,6 +519,14 @@ export class FactureCreateComponent implements OnChanges {
 
   // Many To Many
 
+  calculeSommeQuantite(FactureProduitList: FactureProduit[]): number {
+    let number = FactureProduitList.reduce((sommeQuantite, factureProduit) => {
+      return sommeQuantite + (factureProduit.quantite || 0);
+    }, 0);
+    this.item.totalUnites = number
+    return number;
+  }
+
   updateDisponible(factureProduit: FactureProduit): number {
     const niveauStockInitial = factureProduit?.produit?.niveauStockInitial ?? 0;
     const quantite = factureProduit.quantite ?? 0;

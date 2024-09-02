@@ -133,7 +133,6 @@ export class BonCommandeCreateComponent {
     this.loadDevisesList();
     this.loadNiveauPrixList();
     this.loadProduitList();
-<<<<<<< HEAD
 
     this.clientForm = this.formBuilder.group({
       code: [{value: this.generateCode(), disabled: true}]
@@ -152,16 +151,6 @@ export class BonCommandeCreateComponent {
 
   generateCode(): string {
     return 'B' + this.currentCodeNumber.toString().padStart(7, '0');
-=======
-    this.generateCode();
-
-
-  }
-
-  generateCode(): void {
-    const randomNumber = Math.floor(Math.random() * 1000000);
-    this.item.code = 'B' + randomNumber.toString().padStart(6, '0');
->>>>>>> b6c09603400483e573d9c642c4fa9cd64d58db09
   }
 
 
@@ -297,11 +286,7 @@ export class BonCommandeCreateComponent {
     this.item.bonCommandeProduit = this.item.bonCommandeProduit?.filter(item => item !== itemFP);
   }
 
-<<<<<<< HEAD
   protected dispo = 0;
-=======
->>>>>>> b6c09603400483e573d9c642c4fa9cd64d58db09
-
   public addBonCmdProduits(produit: Produit): void {
     console.log(produit);
     if (this.item.bonCommandeProduit == null) {
@@ -312,7 +297,6 @@ export class BonCommandeCreateComponent {
     bonCommandeProduit.produit = produit
     bonCommandeProduit.disque = 0
     bonCommandeProduit.quantite = 1
-<<<<<<< HEAD
     this.dispo = produit.disponible;
     produit.disponible = produit?.disponible - bonCommandeProduit?.quantite;
     bonCommandeProduit.disponible = produit.disponible;
@@ -324,14 +308,6 @@ export class BonCommandeCreateComponent {
     bonCommandeProduit.total = this.calculerTotal(bonCommandeProduit);
     this.item.bonCommandeProduit = [...this.item.bonCommandeProduit, bonCommandeProduit]
     console.log(bonCommandeProduit.total);
-=======
-    produit.disponible = produit?.niveauStockInitial - bonCommandeProduit?.quantite;
-    bonCommandeProduit.disponible = produit.disponible
-    bonCommandeProduit.prix = produit?.produitNiveauPrix?.filter(it => it.niveauPrix?.id == this.fournisseur?.niveauPrix?.id)[0]?.prix || produit.prixGros;
-    bonCommandeProduit.total = this.calculerTotal(bonCommandeProduit);
-    console.log(bonCommandeProduit.total);
-    this.item.bonCommandeProduit = [...this.item.bonCommandeProduit, bonCommandeProduit]
->>>>>>> b6c09603400483e573d9c642c4fa9cd64d58db09
     console.log(this.item.bonCommandeProduit)
   }
 
