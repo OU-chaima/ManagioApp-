@@ -5,12 +5,12 @@ import {
   coerceElement,
   coerceNumberProperty,
   getRtlScrollAxisType
-} from "./chunk-DWNQSZRK.js";
+} from "./chunk-YGKXMEMY.js";
 import {
   DOCUMENT,
   NgIf,
   isPlatformBrowser
-} from "./chunk-6NMH7JIH.js";
+} from "./chunk-TZZCXSTZ.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -63,7 +63,7 @@ import {
   ɵɵqueryRefresh,
   ɵɵtemplate,
   ɵɵviewQuery
-} from "./chunk-QUOXCSOH.js";
+} from "./chunk-5GECNL2D.js";
 import {
   require_cjs
 } from "./chunk-44LTBBPH.js";

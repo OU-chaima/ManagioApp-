@@ -2,7 +2,7 @@ import { createRequire } from 'module';const require = createRequire(import.meta
 import {
   createPopper2 as createPopper,
   lib_exports
-} from "./chunk-QZACYPDZ.js";
+} from "./chunk-36AJHPB5.js";
 import {
   __spreadProps,
   __spreadValues
